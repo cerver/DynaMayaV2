@@ -1,0 +1,7 @@
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\bin\Release\TestClass.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\bin\Release\TestClass.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\bin\Release\dotMemory.Unit.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\bin\Release\dotMemory.Unit.xml
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\obj\Release\TestClass.csprojResolveAssemblyReference.cache
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\obj\Release\TestClass.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\TestClass\obj\Release\TestClass.pdb

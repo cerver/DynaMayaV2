@@ -1,0 +1,8 @@
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\bin\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\bin\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\obj\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\obj\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\bin\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\bin\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMaya.nll.pdb

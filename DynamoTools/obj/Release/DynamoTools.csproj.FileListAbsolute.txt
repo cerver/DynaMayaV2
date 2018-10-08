@@ -1,0 +1,5 @@
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoTools\bin\Release\DynamoTools.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoTools\bin\Release\DynamoTools.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoTools\obj\Release\DynamoTools.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoTools\obj\Release\DynamoTools.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoTools\obj\Release\DynamoTools.csprojResolveAssemblyReference.cache

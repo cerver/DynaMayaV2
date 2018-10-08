@@ -1,0 +1,7 @@
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\obj\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\bin\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\bin\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\obj\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\bin\Debug\openmayacs.xml
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynamoMaya_new\obj\Debug\DynamoMayaPlugIn_new.csprojResolveAssemblyReference.cache

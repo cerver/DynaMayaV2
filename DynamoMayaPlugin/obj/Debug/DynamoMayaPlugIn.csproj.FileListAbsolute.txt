@@ -1,0 +1,528 @@
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\bin\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\bin\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\obj\Debug\DynamoMaya.nll.dll
+C:\Users\Robert\Desktop\DynaMaya-WIP-master\DynamoMaya\obj\Debug\DynamoMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMayaPlugIn.csprojResolveAssemblyReference.cache
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.pdb
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.xml
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.xml
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.dll
+C:\Users\Robert\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.pdb
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll.config
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.pdb
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCoreWpf.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoShapeManager.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Expression.Interactions.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.Desktop.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.PubSubEvents.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoCore.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoGeometry.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoInterface.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Greg.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUtilities.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoServices.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Newtonsoft.Json.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoScript.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\GraphLayout.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\CSharpAnalytics.WinForms.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoAssociative.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoImperative.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUnits.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.SharpDX.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ICSharpCode.AvalonEdit.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ShapewaysClient.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\FontAwesome.WPF.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoPackages.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\RestSharp.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.Effects.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.DXGI.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.D3DCompiler.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Ionic.Zip.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Cyotek.Drawing.BitmapFont.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Interactivity.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoGeometry.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoInterface.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Newtonsoft.Json.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ICSharpCode.AvalonEdit.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\RestSharp.xml
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCoreWpf.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoCore.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoGeometry.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoAssociative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoImperative.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoPackages.resources.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.dll
+C:\Users\cerve\Google Drive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.pdb
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll.config
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.pdb
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DSIronPython.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoApplications.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCoreWpf.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoInstallDetective.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoServices.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoShapeManager.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUnits.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUtilities.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.Desktop.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.PubSubEvents.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoCore.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoGeometry.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\VMDataBridge.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\IronPython.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\NDesk.Options.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Analytics.NET.Core.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Greg.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Newtonsoft.Json.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoScript.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\GraphLayout.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Analytics.NET.Google.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoAssociative.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ProtoImperative.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\NodeServices2.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\System.Windows.Interactivity.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.SharpDX.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ICSharpCode.AvalonEdit.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ShapewaysClient.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoPackages.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\FontAwesome.WPF.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.Effects.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.DXGI.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.D3DCompiler.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\LibG.Interface.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Attributes.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\LibG.Interface2.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Dynamic.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\RestSharp.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Ionic.Zip.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\CSharpAnalytics.Net45.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D9.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Cyotek.Drawing.BitmapFont.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.Metadata.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.dll.config
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\IronPython.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\DynamoPackages.dll.config
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Dynamic.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.Metadata.xml
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoApplications.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCoreWpf.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoCore.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoGeometry.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoAssociative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoImperative.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoPackages.resources.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.dll
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.pdb
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMayaPlugIn.csproj.CoreCompileInputs.cache
+D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMayaPlugIn.csprojResolveAssemblyReference.cache
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll.config
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynaMaya.nll.pdb
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DSIronPython.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoApplications.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCoreWpf.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoInstallDetective.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoServices.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoShapeManager.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUnits.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoUtilities.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.Desktop.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.PubSubEvents.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ProtoCore.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ProtoGeometry.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\VMDataBridge.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\IronPython.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\NDesk.Options.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ProtoAssociative.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Newtonsoft.Json.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Greg.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ProtoScript.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Analytics.NET.Core.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\GraphLayout.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ProtoImperative.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Analytics.NET.Google.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DesignScriptBuiltin.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoPackages.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ICSharpCode.AvalonEdit.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\FontAwesome.WPF.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.SharpDX.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D11.Effects.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\System.Windows.Interactivity.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.DXGI.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.D3DCompiler.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\LibG.Interface.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Dynamic.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\RestSharp.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Ionic.Zip.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\CSharpAnalytics.Net45.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\System.Collections.Immutable.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\HelixToolkit.Wpf.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\SharpDX.Direct3D9.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Cyotek.Drawing.BitmapFont.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Scripting.Metadata.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\dotMemory.Unit.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoCore.dll.config
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Composition.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.Mvvm.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\nunit.framework.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\openmayacs.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\DynamoPackages.dll.config
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoApplications.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoCoreWpf.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoCore.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoGeometry.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoAssociative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\ProtoImperative.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\cs-CZ\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\de-DE\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\en-US\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\es-ES\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\fr-FR\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\it-IT\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ja-JP\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ko-KR\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pl-PL\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\pt-BR\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\ru-RU\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-CN\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\bin\Debug\zh-TW\DynamoPackages.resources.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\obj\Debug\DynamoMayaPlugIn.csproj.CoreCompileInputs.cache
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMaya_new\obj\Debug\DynaMaya.nll.pdb
