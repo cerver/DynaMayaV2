@@ -41,11 +41,12 @@ namespace DynamoMaya
         // internal RemoteConnection remoteCon;
         public override void doIt(MArgList argl)
         {
-
-            
+            //ToDo: fix embeded wpf dockble window
+           /*
             if (!String.IsNullOrEmpty(wpfTitle))
             {
                 // Check the existence of the window
+                
                 int wndExist = int.Parse(MGlobal.executeCommandStringResult($@"format -stringArg `control -q -ex ""{wpfTitle}""` ""^1s"""));
                 if (wndExist > 0)
                 {
@@ -53,19 +54,18 @@ namespace DynamoMaya
                     try
                     {  
                         view.Show();
-                        //removed -e flag $@"catch (`workspaceControl -e -visible true ""{hostTitle}""`);");
-                        MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{hostTitle}""`);");
+                        MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{wpfTitle}""`);");
                         return;
                     }catch
                     {
                         view.Close();
                         view = null;
-                        MGlobal.executeCommand($@"catch (`deleteUI -window ""{hostTitle}""`);");
+                        MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{wpfTitle}""`);");
                     }
                 
                     
                 }
-            }
+            }*/
             
             RenderOptions.ProcessRenderMode = RenderMode.Default;
             
@@ -77,33 +77,36 @@ namespace DynamoMaya
             //DynamayaStartup.SetupDynamo(out viewModel);
             DynamayaStartup dmStartup = new DynamayaStartup();
             dmStartup.SetupDynamo(out viewModel);
-
+            
             
             // show the window
             view = InitializeCoreView(viewModel);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            view.Show();
+            
 
             view.Closed += View_Closed;
 
             // Extract the window handle of the window we want to dock
-            IntPtr mWindowHandle = new System.Windows.Interop.WindowInteropHelper(view).Handle;
+           // IntPtr mWindowHandle = new WindowInteropHelper(view).Handle;
 
-            var title = view.Title;
+            //var title = view.Title;
             wpfTitle = "DynaMaya";
-            hostTitle = title;
+            hostTitle = wpfTitle;
 
             int width = (int)view.Width;
             int height = (int)view.Height;
 
             view.Title = wpfTitle;
-            mayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
+
+            view.Show();
+
+           //ayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
 
             uint flagIdx = argl.flagIndex(flagName);
             if (flagIdx == MArgList.kInvalidArgIndex)
             {
                 // Create a workspace-control to wrap the native window wrapper, and use it as the parent of this WPF window
-                CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
+               // CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
             }
 
             MGlobal.displayInfo("DynaMaya: Dynamo for Maya |  Copyright© 2018 CERVER Design Studio & Robert Cervellione | http://www.cerver.io");
@@ -114,7 +117,6 @@ namespace DynamoMaya
         private void View_Closed(object sender, EventArgs e)
         {
             DynamoView dv = (DynamoView)sender;
-            MGlobal.executeCommand($@"catch (`deleteUI -window ""{hostTitle}""`);");
             dv.Close();
             dv = null;
             
@@ -193,9 +195,6 @@ namespace DynamoMaya
             dvm = null;
         }
 
-      
-
-    
 
         public class DockWPFPlugin : IExtensionPlugin
         {

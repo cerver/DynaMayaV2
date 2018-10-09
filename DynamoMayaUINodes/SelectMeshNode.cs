@@ -25,7 +25,7 @@ namespace DynaMaya.UINodes
     [NodeName("Get Selected Mesh")]
     [NodeCategory("DynaMaya.Interop.Select")]
 
-    [NodeDescription("A sample UI node which displays custom UI.")]
+    [NodeDescription("Select Maya Mesh")]
 
     [OutPortTypes("Mesh","string","MayaMesh")]
    // [OutPortTypes("string")]
@@ -84,10 +84,10 @@ namespace DynaMaya.UINodes
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand SelectBtnCmd { get; set; }
 
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand ManualUpdateCmd { get; set; }
 
         #endregion
