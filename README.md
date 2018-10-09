@@ -1,4 +1,4 @@
-# DynamoMaya
+# DynaMaya
 Dynamo for Maya
 
 This is the initial public release of DynaMaya, Dynamo for Maya
