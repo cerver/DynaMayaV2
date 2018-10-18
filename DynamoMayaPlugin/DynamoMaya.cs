@@ -42,31 +42,39 @@ namespace DynamoMaya
         public override void doIt(MArgList argl)
         {
             //ToDo: fix embeded wpf dockble window
-           /*
-            if (!String.IsNullOrEmpty(wpfTitle))
+            /*
+             if (!String.IsNullOrEmpty(wpfTitle))
+             {
+                 // Check the existence of the window
+
+                 int wndExist = int.Parse(MGlobal.executeCommandStringResult($@"format -stringArg `control -q -ex ""{wpfTitle}""` ""^1s"""));
+                 if (wndExist > 0)
+                 {
+
+                     try
+                     {  
+                         view.Show();
+                         MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{wpfTitle}""`);");
+                         return;
+                     }catch
+                     {
+                         view.Close();
+                         view = null;
+                         MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{wpfTitle}""`);");
+                     }
+
+
+                 }
+             }*/
+            if (view != null)
             {
-                // Check the existence of the window
-                
-                int wndExist = int.Parse(MGlobal.executeCommandStringResult($@"format -stringArg `control -q -ex ""{wpfTitle}""` ""^1s"""));
-                if (wndExist > 0)
+                if (view.IsVisible)
                 {
-                    
-                    try
-                    {  
-                        view.Show();
-                        MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{wpfTitle}""`);");
-                        return;
-                    }catch
-                    {
-                        view.Close();
-                        view = null;
-                        MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{wpfTitle}""`);");
-                    }
-                
-                    
+                    MGlobal.displayWarning("Dynamo is already open");
+                    return;
                 }
-            }*/
-            
+            }
+
             RenderOptions.ProcessRenderMode = RenderMode.Default;
             
 
@@ -77,9 +85,10 @@ namespace DynamoMaya
             //DynamayaStartup.SetupDynamo(out viewModel);
             DynamayaStartup dmStartup = new DynamayaStartup();
             dmStartup.SetupDynamo(out viewModel);
-            
-            
+
+
             // show the window
+            
             view = InitializeCoreView(viewModel);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             

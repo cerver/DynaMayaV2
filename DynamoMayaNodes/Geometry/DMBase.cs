@@ -44,6 +44,9 @@ namespace DynaMaya.Geometry
         public event DMEventHandler Deleted;
 
         [IsVisibleInDynamoLibrary(false)]
+        public event DMEventHandler Renamed;
+
+        [IsVisibleInDynamoLibrary(false)]
         protected internal virtual void OnChanged(MFnDagNode dagNode)
         {
             Changed?.Invoke(this, dagNode);
@@ -56,6 +59,12 @@ namespace DynaMaya.Geometry
         }
 
         [IsVisibleInDynamoLibrary(false)]
+        protected internal virtual void OnRenamed(MFnDagNode dagNode)
+        {
+            Renamed?.Invoke(this, dagNode);
+        }
+
+        [IsVisibleInDynamoLibrary(false)]
         public DMBase()
         {
 
@@ -65,7 +74,7 @@ namespace DynaMaya.Geometry
         public DMBase(MDagPath dagShape, MSpace.Space mspace)
         {
             DagShape = dagShape;
-            AddEvents(dagShape);
+            AddCoreEvents(dagShape);
             DagNode = new MFnDagNode(dagShape);
             dagName =  DagShape.partialPathName;
             space = mspace.ToString();
@@ -75,41 +84,71 @@ namespace DynaMaya.Geometry
         public DMBase(MDagPath dagShape, MDagPath dagTransform, MSpace.Space mspace)
         {
             DagShape = dagShape;
-            AddEvents(dagShape);
+            AddCoreEvents(dagShape);
             DagNode = new MFnDagNode(dagShape);
             dagName = dagTransform.partialPathName;
             space = mspace.ToString();
         }
-
-        //methods
-
-        internal void AddEvents(MDagPath dagPath)
+        [IsVisibleInDynamoLibrary(false)]
+        public DMBase(MDagPath dagShape, string mspace)
         {
-            dagPath.WorldMatrixModified += DagPathOnWorldMatrixModified;
-            dagPath.node.NodeDirtyPlug += NodeOnNodeDirtyPlug;
-            dagPath.node.NodeAboutToDelete += NodeOnNodeAboutToDelete;
+            DagShape = dagShape;
+            AddCoreEvents(dagShape);
+            DagNode = new MFnDagNode(dagShape);
+            dagName = DagShape.partialPathName;
+            space = mspace;
         }
 
-        internal void RemoveEvents(MDagPath dagPath)
+
+        //methods
+        [IsVisibleInDynamoLibrary(false)]
+        public void AddCoreEvents(MDagPath dagPath)
+        { 
+            dagPath.node.NameChanged += NodeOnNameChanged;
+            dagPath.node.NodeAboutToDelete += NodeOnNodeAboutToDelete;
+   
+        }
+
+        [IsVisibleInDynamoLibrary(false)]
+        public void AddEvents(MDagPath dagPath)
+        { 
+            dagPath.node.NodeDirtyPlug += NodeOnNodeDirtyPlug;
+            dagPath.node.NodeAboutToDelete += NodeOnNodeAboutToDelete;
+            dagPath.node.NodeDirty += NodeNodeDirty;
+        }
+
+       
+
+        [IsVisibleInDynamoLibrary(false)]
+        public void RemoveEvents(MDagPath dagPath)
         {
-            dagPath.WorldMatrixModified -= DagPathOnWorldMatrixModified;
+
             dagPath.node.NodeDirtyPlug -= NodeOnNodeDirtyPlug;
             dagPath.node.NodeAboutToDelete -= NodeOnNodeAboutToDelete;
+            dagPath.node.NodeDirty -= NodeNodeDirty;
         }
 
         //events
+        private void NodeOnNameChanged(object sender, MNodeStringFunctionArgs e)
+        {
+            OnRenamed(DagNode);
+        }
+        private void NodeNodeDirty(object sender, MNodeFunctionArgs e)
+        {
+            OnChanged(DagNode);
+        }
+        private void DagPath_AllDagChangesDagPath(object sender, MMessageParentChildFunctionArgs e)
+        {
+            OnChanged(DagNode);
+        }
         internal void DagPathOnWorldMatrixModified(object sender, MWorldMatrixModifiedFunctionArgs mWorldMatrixModifiedFunctionArgs)
         {
-
-                OnChanged(DagNode);
-    
+            OnChanged(DagNode);
         }
 
         internal void NodeOnNodeDirtyPlug(object sender, MNodePlugFunctionArgs mNodePlugFunctionArgs)
         {
-   
-                OnChanged(DagNode);
-       
+            OnChanged(DagNode);
         }
         internal void NodeOnNodeAboutToDelete(object sender, MNodeModifierFunctionArgs mNodeModifierFunctionArgs)
         {

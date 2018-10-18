@@ -9,16 +9,16 @@
 
 
 
-    <Grid Margin="0,10" ZIndex="999">
+    <Grid Margin="0,52,0,14" ZIndex="999" Background="#FF9FB6B5">
 
         <Line Stroke="Orange" Height="2" Margin="6,34,26.6,74.4"  />
-        <ComboBox x:Name="SpaceSelect" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Width="112" SelectedIndex="0" SelectedValue="{Binding mSpace, Mode=TwoWay}" SelectedValuePath="Tag" >
+        <ComboBox x:Name="SpaceSelect" HorizontalAlignment="Left" Margin="0,28,0,0" VerticalAlignment="Top" Width="112" SelectedIndex="0" SelectedValue="{Binding mSpace, Mode=TwoWay}" SelectedValuePath="Tag" >
             <ComboBoxItem Content="World" Tag="kWorld"/>
             <ComboBoxItem Content="Object" Tag="kObject"/>
             <ComboBoxItem Content="PostTransform" Tag="kPostTransform"/>
         </ComboBox>
-        <Label x:Name="label1_Copy" Content="Maya CS Space" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" Margin="0,34,0,0"/>
-        <CheckBox x:Name="cb_LiveUpdate" Content="Live Update" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" IsChecked="{Binding liveUpdate, Mode=TwoWay}"/>
+        <Label x:Name="label1_Copy" Content="Maya CS Space" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" Margin="0,5,0,0"/>
+        <CheckBox x:Name="cb_LiveUpdate" Content="Live Update" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" IsChecked="{Binding liveUpdate, Mode=TwoWay}"/>
 
 
 

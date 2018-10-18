@@ -34,6 +34,14 @@ namespace DynaMaya.Geometry
             : base(dagPath, mspace)
         {
             MayaMesh = new MFnMesh(dagPath);
+            
+
+        }
+        [IsVisibleInDynamoLibrary(false)]
+        public DMMesh(MDagPath dagPath, string mspace)
+            : base(dagPath, mspace)
+        {
+            MayaMesh = new MFnMesh(dagPath);
 
         }
         [IsVisibleInDynamoLibrary(false)]
@@ -43,6 +51,7 @@ namespace DynaMaya.Geometry
             MayaMesh = new MFnMesh(dagShape);
 
         }
+
 
         //methods
 

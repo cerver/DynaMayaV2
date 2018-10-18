@@ -18,6 +18,7 @@ using ProtoCore.AST.AssociativeAST;
 using DynaMaya.Util;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace DynaMaya.UINodes
 {
@@ -41,18 +42,29 @@ namespace DynaMaya.UINodes
         private AssociativeNode _mayaMesh = AstFactory.BuildNullNode();
         private MSpace.Space space = MSpace.Space.kWorld;
         private bool firstRun = true;
-        private bool _hasBeenDeleted = false;
+        private bool hasBeenDeleted = false;
         private bool m_liveUpdate = false;
+        private bool isFromUpdate = false;
+        private bool isUpdating = false;
 
-        private int updateInterval = 300;
-        private string m_updateInterval = "50";
         private string m_mSpace = MSpace.Space.kWorld.ToString();
         private Dictionary<string, DMMesh> SelectedItems;
-    
-            #endregion
+        private List<string> m_SelectedItemNames = new List<string>();
+        private string m_SelectedItemNamesString = "";
+
+        private Dictionary<string ,AssociativeNode> dynamoMesh = null;
+        private Dictionary<string, AssociativeNode> meshName = null;
+        private Dictionary<string, AssociativeNode> mayaMesh = null;
+
+        private Func<string, string, Mesh> dynamoElementFunc = DMMesh.ToDynamoElement;
+        private Func<string, string, MFnMesh> MayaElementFunc = DMMesh.GetMayaMesh;
+
+
+        #endregion
 
         #region properties
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "mSpace")]
         public string mSpace
         {
             get
@@ -63,11 +75,12 @@ namespace DynaMaya.UINodes
             {
                 m_mSpace = value;
                 Enum.TryParse(m_mSpace, out space);
-                RaisePropertyChanged("NodeMessage");
+                RaisePropertyChanged("mSpace");
             }
         }
 
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "liveUpdate")]
         public bool liveUpdate
         {
             get
@@ -77,9 +90,63 @@ namespace DynaMaya.UINodes
             set
             {
                 m_liveUpdate = value;
-                RaisePropertyChanged("NodeMessage");
+                if(m_liveUpdate)
+                {
+                    registerUpdateEvents();
+                }
+                else
+                {
+                    unRegisterUpdateEvents();
+                }
+                RaisePropertyChanged("liveUpdate");
             }
         }
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "SelectedItemNamesString")]
+        public string SelectedItemNamesString
+        {
+            get
+            {
+                return m_SelectedItemNamesString;
+            }
+            set
+            {
+                m_SelectedItemNamesString = value;
+                DeserializeNameList(m_SelectedItemNamesString);
+
+                RaisePropertyChanged("SelectedItemNamesString");
+                OnNodeModified();
+            }
+        }
+
+        private void DeserializeNameList(string nameListString)
+        {
+            var splitNames = nameListString.Split(',');
+            if (splitNames.Length > 0)
+            {
+                SelectedItems = new Dictionary<string, DMMesh>(splitNames.Length);
+              
+                foreach (var name in splitNames)
+                {
+                    try
+                    {
+                        var itm = new DMMesh(DMInterop.getDagNode(name), space);
+                        itm.Deleted += MObjOnDeleted;
+                        itm.Changed += MObjOnChanged;
+                        SelectedItems.Add(itm.dagName, itm);
+                    }
+                    catch
+                    {
+                        Warning($"Object {name} does not exist or is not valid");
+                    }
+                    
+                    
+
+                }
+            }
+
+        }
+
         /// <summary>
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
@@ -101,6 +168,7 @@ namespace DynaMaya.UINodes
         {
             base.OnBuilt();
             VMDataBridge.DataBridge.Instance.RegisterCallback(GUID.ToString(), DataBridgeCallback);
+            isUpdating = false;
         }
 
       
@@ -115,15 +183,15 @@ namespace DynaMaya.UINodes
         /// <param name="data">The data passed through the data bridge.</param>
         private void DataBridgeCallback(object data)
         {
-            ArrayList inputs = data as ArrayList;
-            string inputText = "";
-            foreach (var input in inputs)
+            try
             {
-                inputText += input.ToString() + " ";
+                var dataObj = data;
+                //JsonConvert.SerializeObject(SelectedItems);
+              
+            }catch
+            {
+                Warning("DataBridge callback failed");
             }
-            
-           // WindowText = ("Data bridge callback of node " + GUID.ToString().Substring(0, 5) + ": " + inputText);
-           // ButtonText = inputText;
         }
         #endregion
 
@@ -185,78 +253,55 @@ namespace DynaMaya.UINodes
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
+            this.ClearErrorsAndWarnings();
 
-            Func<string, string, Mesh> dynamoElementFunc = DMMesh.ToDynamoElement;
-            Func<string, string, MFnMesh> MayaElementFunc = DMMesh.GetMayaMesh;
-
-            List<AssociativeNode> newInputs = null;
-            List<AssociativeNode> newNameInputs = null;
-            List<AssociativeNode> mayaMesh = null;
-
-            
-            if (SelectedItems == null || _hasBeenDeleted)
+ 
+            if (SelectedItems == null || hasBeenDeleted)
             {
-                SelectedItems = new Dictionary<string, DMMesh>();
+                //SelectedItems = new Dictionary<string, DMMesh>();
                 _meshLstNode = AstFactory.BuildNullNode();
                 _SelectedNameLstNode = AstFactory.BuildNullNode();
                 _mayaMesh = AstFactory.BuildNullNode();
-                _hasBeenDeleted = false;
+                hasBeenDeleted = false;
+                //return Enumerable.Empty<AssociativeNode>();
             }
             else
             {
                 if (SelectedItems.Count > 0)
                 {
-
-                   newInputs = new List<AssociativeNode>(SelectedItems.Count);
-                   newNameInputs = new List<AssociativeNode>(SelectedItems.Count);
-                   mayaMesh = new List<AssociativeNode>(SelectedItems.Count);
-
-                    foreach (var dag in SelectedItems.Values)
+                    //only rebuild the entire list of geom if needed. otherwise this has been created and is built and updated as needed on only the geometry that has changed
+                    if (!isFromUpdate)
                     {
-                        newInputs.Add(AstFactory.BuildFunctionCall(
-                            dynamoElementFunc,
-                            new List<AssociativeNode>
-                            {
-                                AstFactory.BuildStringNode(dag.dagName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                            }));
+                        dynamoMesh = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        meshName = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        mayaMesh = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
 
-                        mayaMesh.Add(AstFactory.BuildFunctionCall(
-                            MayaElementFunc,
-                            new List<AssociativeNode>
-                            {
-                                AstFactory.BuildStringNode(dag.dagName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                            }));
+                        foreach (var dag in SelectedItems.Values)
+                        {
+                            buildAstNodes(dag.dagName);
 
-                        newNameInputs.Add(AstFactory.BuildStringNode(dag.dagName));
-                     
-
+                        }
                     }
 
-                    _meshLstNode = AstFactory.BuildExprList(newInputs);
-                    _SelectedNameLstNode = AstFactory.BuildExprList(newNameInputs);
-                    _mayaMesh = AstFactory.BuildExprList(mayaMesh);
+
+                    _meshLstNode = AstFactory.BuildExprList(dynamoMesh.Values.ToList());
+                    _SelectedNameLstNode = AstFactory.BuildExprList(meshName.Values.ToList());
+                    _mayaMesh = AstFactory.BuildExprList(mayaMesh.Values.ToList());
 
 
                 }
                 else
+                {
                     _meshLstNode = AstFactory.BuildNullNode();
-
+                }
 
             }
 
-          
+            isFromUpdate = false;
 
             return new[]
             {
 
-               /* AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(0), _meshLstNode),
-                    AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(1), _SelectedNameLstNode),
-                    AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(2), _mayaMesh),*/
 
                     AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _meshLstNode),
                     AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
@@ -274,10 +319,54 @@ namespace DynaMaya.UINodes
             };
         }
 
-    
+        internal void buildAstNodes(string dagName)
+        {
+            meshName.Add(dagName, AstFactory.BuildStringNode(dagName));
+
+            mayaMesh.Add(dagName, AstFactory.BuildFunctionCall(
+                MayaElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
+
+            dynamoMesh.Add(dagName, AstFactory.BuildFunctionCall(
+                dynamoElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
+        }
+
+        internal void registerUpdateEvents()
+        {
+            if(SelectedItems !=null)
+            {
+                foreach (KeyValuePair<string, DMMesh> itm in SelectedItems)
+                {
+                    itm.Value.AddEvents(itm.Value.DagShape);
+                    itm.Value.Changed += MObjOnChanged;
+                }
+            }
+        }
+
+        internal void unRegisterUpdateEvents()
+        {
+            if (SelectedItems != null)
+            {
+                foreach (KeyValuePair<string, DMMesh> itm in SelectedItems)
+                {
+                    itm.Value.Changed -= MObjOnChanged;
+                    itm.Value.RemoveEvents(itm.Value.DagShape);
+                }
+            }
+        }
+
         internal void GetNewGeom()
         {
-            VMDataBridge.DataBridge.Instance.UnregisterCallback(GUID.ToString());
+           // VMDataBridge.DataBridge.Instance.UnregisterCallback(GUID.ToString());
             if (firstRun)
                 firstRun = false;
             else
@@ -292,48 +381,88 @@ namespace DynaMaya.UINodes
 
             }
 
-
             MSelectionList selectionList = new MSelectionList();
             MGlobal.getActiveSelectionList(selectionList,true);
+
+            if(selectionList.isEmpty)
+            {
+                SelectedItems = null;
+                OnNodeModified(true);
+                return;
+            }
 
             var TransObjectList = selectionList.DagPaths(MFn.Type.kTransform).ToList();
             var DagObjectList = selectionList.DagPaths(MFn.Type.kMesh).ToList();
             SelectedItems = new Dictionary<string, DMMesh>(DagObjectList.Count);
-
+            m_SelectedItemNames = new List<string>(DagObjectList.Count);
          
             foreach (var dag in TransObjectList)
             {
                 if (dag.hasFn(MFn.Type.kMesh))
                 {
                     var itm = new DMMesh(dag, space);
-                    //itm.Changed += MObjOnChanged;
-                    //itm.Deleted += MObjOnDeleted;
+                    itm.Renamed += Itm_Renamed;
+                    itm.Deleted += MObjOnDeleted;
                     SelectedItems.Add(itm.dagName, itm);
+                    m_SelectedItemNames.Add(itm.dagName);
                    // ct++;
                 }
             }
 
-
+            m_SelectedItemNamesString = ConvertStringListToString(m_SelectedItemNames);
 
             OnNodeModified(true);
+        }
+
+        internal void rebuildItemNameList(bool updateNameListString = true)
+        {
+            m_SelectedItemNames = new List<string>(SelectedItems.Count);
+            foreach (var itm in SelectedItems)
+            {
+                m_SelectedItemNames.Add(itm.Value.dagName);
+            }
+
+            if (updateNameListString)
+            {
+                ConvertStringListToString(m_SelectedItemNames);
+            }
+        }
+
+        internal static string ConvertStringListToString(List<string> stringList)
+        {
+            string listAsString = "";
+            for(int i=0; i<stringList.Count-1; i++)
+            {
+                listAsString += stringList[i] + ",";
+            }
+            listAsString += stringList[stringList.Count - 1];
+            return listAsString;
         }
 
         internal void MObjOnDeleted(object sender, MFnDagNode dagNode)
         {
 
-
+            isFromUpdate = true;
             if (SelectedItems != null && SelectedItems.Count>0)
             {
-             
+                var dag = (DMMesh)sender;
                 if (SelectedItems.Count == 1)
-                    _hasBeenDeleted = true;
+                {
+                    hasBeenDeleted = true;
+                    SelectedItems = null;
+                    OnNodeModified(true);
+                    return;
+                }
              
 
-                var uuidstr = dagNode.uuid().asString();
-                if (SelectedItems.ContainsKey(uuidstr))
+                if (SelectedItems.ContainsKey(dag.dagName))
                 {
-                    SelectedItems[uuidstr].Dispose();
-                    SelectedItems.Remove(uuidstr); 
+                    SelectedItems.Remove(dag.dagName);
+                    dynamoMesh.Remove(dag.dagName);
+                    mayaMesh.Remove(dag.dagName);
+                    meshName.Remove(dag.dagName);
+                   
+                    
                 }
                 
                
@@ -343,16 +472,75 @@ namespace DynaMaya.UINodes
 
         internal void MObjOnChanged(object sender, MFnDagNode dagNode)
         {
-            if (liveUpdate)
+            if (!isUpdating)
             {
-                OnNodeModified(true);
-            }   
-            else
-            {
-               MarkNodeAsModified(true);
+                isUpdating = true;
+
+                var dag = new DMMesh(dagNode.dagPath, space);
+
+              //  if (liveUpdate)
+              //  {
+                    isFromUpdate = true;
+
+                    if (SelectedItems.ContainsKey(dag.dagName))
+                    {
+                        SelectedItems[dag.dagName] = dag;
+
+
+                        dynamoMesh[dag.dagName] = AstFactory.BuildFunctionCall(
+                                    dynamoElementFunc,
+                                    new List<AssociativeNode>
+                                    {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                                    });
+
+                        mayaMesh[dag.dagName] = AstFactory.BuildFunctionCall(
+                            MayaElementFunc,
+                            new List<AssociativeNode>
+                            {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                            });
+
+                    }
+
+                    OnNodeModified(true);
+                //}
+               // else
+               // {
+                  //  MarkNodeAsModified(true);
+              //  }
             }
                 
 
+        }
+
+        private void Itm_Renamed(object sender, MFnDagNode dagNode)
+        {
+            //ToDo: get the rename system working
+            var dag = (DMMesh)sender;
+            if (SelectedItems.ContainsKey(dag.dagName))
+            {
+                string newName = dagNode.partialPathName;
+                string oldName = dag.dagName;
+
+                isFromUpdate = true;
+                SelectedItems.Remove(oldName);
+                meshName.Remove(oldName);
+                mayaMesh.Remove(oldName);
+
+                var dmmesh = new DMMesh(dagNode.dagPath, m_mSpace);
+                SelectedItems.Add(newName, dmmesh);
+
+                buildAstNodes(newName);
+
+                rebuildItemNameList();
+
+                OnNodeModified(true);
+
+            }
+            dag.Dispose();
         }
 
         #endregion
@@ -368,6 +556,9 @@ namespace DynaMaya.UINodes
         internal  void SelectBtnClicked(object obj)
         {
             GetNewGeom();
+
+
+
         
         }
 
