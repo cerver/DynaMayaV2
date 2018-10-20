@@ -627,6 +627,7 @@ C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\bin\Debug\
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\bin\Debug\ru-RU\DynamoPackages.resources.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\bin\Debug\zh-CN\DynamoPackages.resources.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\bin\Debug\zh-TW\DynamoPackages.resources.dll
+C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynamoMayaPlugIn.csprojAssemblyReference.cache
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynamoMayaPlugIn.csproj.CoreCompileInputs.cache
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynamoMayaPlugIn.csproj.CopyComplete
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynaMaya.nll.dll

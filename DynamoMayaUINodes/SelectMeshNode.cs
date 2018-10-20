@@ -214,8 +214,8 @@ namespace DynaMaya.UINodes
 
 
             ArgumentLacing = LacingStrategy.Shortest;
-            SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
-            ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
+           // SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
+           // ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
             this.CanUpdatePeriodically = true;
 
         }
@@ -229,6 +229,7 @@ namespace DynaMaya.UINodes
         {
             this.PortDisconnected += Node_PortDisconnected;
             SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
+            ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
         }
 
         // Restore default button/window text and trigger UI update
@@ -553,17 +554,13 @@ namespace DynaMaya.UINodes
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal  void SelectBtnClicked(object obj)
+        public  void SelectBtnClicked(object obj)
         {
             GetNewGeom();
-
-
-
-        
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal void ManualUpdateBtnClicked(object obj)
+        public void ManualUpdateBtnClicked(object obj)
         {
      
                 OnNodeModified(true);

@@ -198,10 +198,16 @@ namespace DynaMaya.Util
                 DMSurface.ToMaya((Surface)geom, name, groupName);
             else if(geom is CoordinateSystem)
                 DMLocator.ToMaya((CoordinateSystem)geom, name);
-            else if(geom is Mesh)
-                DMMesh.ToMaya((Mesh)geom, name);
-            else if(geom is TSplineSurface)
-                DMMesh.ToMayaFromTSplinesSurf((TSplineSurface)geom, name);
+            else if (geom is Mesh)
+            {
+                DMMesh dmMesh = new DMMesh();
+                dmMesh.ToMaya((Mesh) geom, name);
+            }
+            else if (geom is TSplineSurface)
+            {
+                DMMesh dmMesh = new DMMesh();
+                dmMesh.ToMayaFromTSplinesSurf((TSplineSurface) geom, name);
+            }
             else if(geom is CoordinateSystem)
                 DMLocator.ToMaya((CoordinateSystem)geom, name);
             else if(geom is Point)

@@ -19,9 +19,13 @@ namespace DynaMaya.Geometry
     [IsVisibleInDynamoLibrary(false)]
     public class DMMesh : DMBase
     {
-   
-        public Mesh DynMesh;
-        internal MFnMesh MayaMesh;
+        //[IsVisibleInDynamoLibrary(false)]
+        //public Mesh DynMesh;
+
+        [IsVisibleInDynamoLibrary(false)]
+        public MDagModifier dagMod;
+        [IsVisibleInDynamoLibrary(false)]
+        public MFnMesh meshFn;
 
         [IsVisibleInDynamoLibrary(false)]
         public DMMesh()
@@ -33,7 +37,7 @@ namespace DynaMaya.Geometry
         public DMMesh(MDagPath dagPath, MSpace.Space mspace)
             : base(dagPath, mspace)
         {
-            MayaMesh = new MFnMesh(dagPath);
+            //MayaMesh = new MFnMesh(dagPath);
             
 
         }
@@ -41,14 +45,14 @@ namespace DynaMaya.Geometry
         public DMMesh(MDagPath dagPath, string mspace)
             : base(dagPath, mspace)
         {
-            MayaMesh = new MFnMesh(dagPath);
+           // MayaMesh = new MFnMesh(dagPath);
 
         }
         [IsVisibleInDynamoLibrary(false)]
         public DMMesh(MDagPath dagShape, MDagPath dagTransform, MSpace.Space mspace)
             : base(dagShape, dagTransform, mspace)
         {
-            MayaMesh = new MFnMesh(dagShape);
+           // MayaMesh = new MFnMesh(dagShape);
 
         }
 
@@ -63,6 +67,7 @@ namespace DynaMaya.Geometry
 
             return MTDMeshFromName(dagName, space);
         }
+
         public static Mesh ToDynamoElement(MFnMesh mMesh, string space )
         {
             MSpace.Space mspace = MSpace.Space.kWorld;
@@ -70,12 +75,14 @@ namespace DynaMaya.Geometry
 
             return MTDMeshFromMayaMesh(mMesh, mspace);
         }
+
         [IsVisibleInDynamoLibrary(false)]
-        public static bool ToMaya(Mesh MeshToSend, string name)
+        public static bool ToMayaOLD(Mesh MeshToSend, string name)
         {
             bool nodeExists = false;
             MDagPath node = null;
             Task checkNode = null;
+            Task mobjMesh = null;
 
             try
             {
@@ -91,18 +98,18 @@ namespace DynaMaya.Geometry
 
                 nodeExists = false;
             }
-            MFnMesh mayaMesh;
+            MFnMesh mfnMesh;
 
             if (nodeExists)
             {
-                mayaMesh = new MFnMesh(node);
+                mfnMesh = new MFnMesh(node);
             }
             else
             {
-                mayaMesh = new MFnMesh();
+                mfnMesh = new MFnMesh();
             }
            
-
+            //unpack geom
             int numVert = MeshToSend.VertexPositions.Length;
             int numPoly = MeshToSend.FaceIndices.Length;
 
@@ -151,20 +158,24 @@ namespace DynaMaya.Geometry
                 
             }
 
-
+            //create maya mesh
             if (nodeExists)
             {
-               
-                mayaMesh.createInPlace(numVert, numPoly, verticies, faceVtxCt, faceCnx);
 
+                mfnMesh.createInPlace(numVert, numPoly, verticies, faceVtxCt, faceCnx);
+                mfnMesh.Dispose();
 
             }
             else
             {
-                var obj = mayaMesh.create(numVert, numPoly, verticies, faceVtxCt, faceCnx);
-                MFnDependencyNode nodeFn = new MFnDagNode(obj);
-                nodeFn.setName(name);
-                MGlobal.executeCommand("sets -e -forceElement initialShadingGroup " + nodeFn.name);
+                using (var obj = mfnMesh.create(numVert, numPoly, verticies, faceVtxCt, faceCnx))
+                {
+                    MFnDependencyNode nodeFn = new MFnDagNode(obj);
+                    nodeFn.setName(name);
+                    MGlobal.executeCommand("sets -e -forceElement initialShadingGroup " + nodeFn.name);
+                    mfnMesh.Dispose();
+                }
+                
             }
 
 
@@ -172,19 +183,48 @@ namespace DynaMaya.Geometry
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        public static bool ToMayaFromTSplinesSurf(TSplineSurface TsMeshToSend, string name)
+        public bool ToMaya(Mesh MeshToSend, string name)
+        {
+            try
+            {
+                dynMeshToMayaMesh(name, MeshToSend);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+
+            return true;
+        }
+
+        [IsVisibleInDynamoLibrary(false)]
+        public bool ToMayaFromTSplinesSurf(TSplineSurface TsMeshToSend, string name)
+        {
+            try
+            {
+                dynMeshToMayaMesh(name, null, TsMeshToSend);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+
+            return true;
+        }
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptionsAttribute()]
+        private void dynMeshToMayaMesh( string name, Mesh dynMesh=null, TSplineSurface tsMesh=null)
         {
             bool nodeExists = false;
             MDagPath node = null;
-            Task checkNode = null;
+            Task unpackTask = null;
+            Task mobjTask = null;
 
             try
             {
-                checkNode = Task.Factory.StartNew(() => node = DMInterop.getDagNode(name));
-                checkNode.Wait(500);
-
+                node = DMInterop.getDagNode(name);
                 nodeExists = true;
-
 
             }
             catch (Exception)
@@ -192,88 +232,269 @@ namespace DynaMaya.Geometry
 
                 nodeExists = false;
             }
-            MFnMesh mayaMesh;
-
-            if (nodeExists)
-            {
-                
-                mayaMesh = new MFnMesh(node);
-            }
-            else
-            {
-                mayaMesh = new MFnMesh();
-            }
-
-            
-
-            int numVert = TsMeshToSend.VerticesCount;
-            int numPoly = TsMeshToSend.FacesCount;
 
             MIntArray faceCnx = new MIntArray();
             MFloatPointArray verticies = new MFloatPointArray();
             MIntArray faceVtxCt = new MIntArray();
+            int numVert = 0;
+            int numPoly = 0;
 
-            MFloatPoint vtxToAdd = new MFloatPoint();
-
-            Parallel.Invoke(() =>
+            if (dynMesh != null)
             {
-                foreach (var vtx in TsMeshToSend.Vertices)
-                {
-                    if (MGlobal.isZAxisUp)
-                    {
+                numVert = dynMesh.VertexPositions.Length;
+                numPoly = dynMesh.FaceIndices.Length;
+                unpackTask = Task.Factory.StartNew(() => unpackDynMesh(dynMesh, out faceCnx, out verticies, out faceVtxCt));
+                unpackTask.Wait(4000);
+            }
 
-                        vtxToAdd.x = (float) vtx.PointGeometry.X;
-                        vtxToAdd.y = (float) vtx.PointGeometry.Y;
-                        vtxToAdd.z = (float) vtx.PointGeometry.Z;
-                    }
-                    else
-                    {
-                        vtxToAdd.x = (float) vtx.PointGeometry.X;
-                        vtxToAdd.y = (float) vtx.PointGeometry.Z;
-                        vtxToAdd.z = -(float) vtx.PointGeometry.Y;
-                    }
-
-                    verticies.Add(vtxToAdd);
-                }
-            },
-            () =>
+            if (tsMesh != null)
             {
-                foreach (var fidx in TsMeshToSend.Faces)
-                {
-
-                    int vtxCt = fidx.Vertices.Length;
-                    faceVtxCt.Add(vtxCt);
-
-                    foreach (var fVert in fidx.Vertices)
-                    {
-                        faceCnx.Add(fVert.Index);
-                    }
+                numVert = tsMesh.VerticesCount;
+                numPoly = tsMesh.FacesCount;
+                unpackTask = Task.Factory.StartNew(() => unpackTsMesh(tsMesh, out faceCnx, out verticies, out faceVtxCt));
+                unpackTask.Wait(4000);
+            }
 
 
-                }
-            });
 
             if (nodeExists)
             {
- 
-                mayaMesh.createInPlace(numVert, numPoly, verticies, faceVtxCt, faceCnx);
-                mayaMesh.updateSurface();
-                
+                try
+                {
+                    meshFn = new MFnMesh(node);
+                    meshFn.createInPlace(numVert, numPoly, verticies, faceVtxCt, faceCnx);
+                   
+                }
+                catch (Exception e)
+                {
+                    MGlobal.displayWarning(e.Message);
+                }
+              
+
             }
             else
             {
-                var obj = mayaMesh.create(numVert, numPoly, verticies, faceVtxCt, faceCnx);
-                Thread.Sleep(1500);
-                MFnDependencyNode nodeFn = new MFnDagNode(obj);
-                nodeFn.setName(name);
-                MGlobal.executeCommand("sets -e -forceElement initialShadingGroup " + nodeFn.name);
+       
+                try
+                {
+                    dagMod = new MDagModifier();
+                    // Create a mesh data wrapper to hold the new geometry.
+                    MFnMeshData dataFn = new MFnMeshData();
+                    MObject dataWrapper = dataFn.create();
+
+                    // Create the mesh geometry and put it into the wrapper.
+                    meshFn = new MFnMesh();
+                    MObject dataObj = meshFn.create(numVert, numPoly, verticies, faceVtxCt, faceCnx, dataWrapper);
+                    MObject transform = dagMod.createNode("mesh", MObject.kNullObj);
+
+                    dagMod.doIt();
+
+                    renameNodes(transform, name);
+                    dagMod.doIt();
+                    assignShadingGroup(transform, "initialShadingGroup");
+                    dagMod.doIt();
+                    setMeshData(transform, dataWrapper);
+                }
+                catch (Exception e)
+                {
+                    MGlobal.displayWarning(e.Message);
+                }
+                
 
             }
 
+            //GC.Collect();
+            //GC.WaitForPendingFinalizers();
+        }
+ 
+        private  void assignShadingGroup(MObject transform, string groupName)
+        {
+            // Get the name of the mesh node.
+            //
+            // We need to use an MFnDagNode rather than an MFnMesh because the mesh
+            // is not fully realized at this point and would be rejected by MFnMesh.
+            MFnDagNode dagFn = new MFnDagNode(transform);
+            dagFn.setObject(dagFn.child(0));
 
-            return true;
+            string meshName = dagFn.name;
+
+            // Use the DAG modifier to put the mesh into a shading group
+            string cmd = "sets -e -fe ";
+            cmd += groupName + " " + meshName;
+            dagMod.commandToExecute(cmd);
+
+            // Use the DAG modifier to select the new mesh.
+            cmd = "select " + meshName;
+            dagMod.commandToExecute(cmd);
+        }
+        private  void renameNodes(MObject transform, string baseName)
+        {
+            //  Rename the transform to something we know no node will be using.
+            dagMod.renameNode(transform, "polyPrimitiveCmdTemp");
+
+            //  Rename the mesh to the same thing but with 'Shape' on the end.
+            MFnDagNode dagFn = new MFnDagNode(transform);
+
+            dagMod.renameNode(dagFn.child(0), "polyPrimitiveCmdTempShape");
+
+            //  Now that they are in the 'something/somethingShape' format, any
+            //  changes we make to the name of the transform will automatically be
+            //  propagated to the shape as well.
+            //
+            //  Maya will replace the '#' in the string below with a number which
+            //  ensures uniqueness.
+            string transformName = baseName+"Shape";
+            dagMod.renameNode(transform, baseName);
+            dagMod.renameNode(dagFn.child(0), transformName);
         }
 
+        private  void setMeshData(MObject transform, MObject dataWrapper)
+        {
+            // Get the mesh node.
+            MFnDagNode dagFn = new MFnDagNode(transform);
+            MObject mesh = dagFn.child(0);
+
+            // The mesh node has two geometry inputs: 'inMesh' and 'cachedInMesh'.
+            // 'inMesh' is only used when it has an incoming connection, otherwise
+            // 'cachedInMesh' is used. Unfortunately, the docs say that 'cachedInMesh'
+            // is for internal use only and that changing it may render Maya
+            // unstable.
+            //
+            // To get around that, we do the little dance below...
+
+            // Use a temporary MDagModifier to create a temporary mesh attribute on
+            // the node.
+            MFnTypedAttribute tAttr = new MFnTypedAttribute();
+            MObject tempAttr = tAttr.create("tempMesh", "tmpm", MFnData.Type.kMesh);
+            MDagModifier tempMod = new MDagModifier();
+
+            tempMod.addAttribute(mesh, tempAttr);
+
+            tempMod.doIt();
+
+            // Set the geometry data onto the temp attribute.
+            dagFn.setObject(mesh);
+
+            MPlug tempPlug = dagFn.findPlug(tempAttr);
+
+            tempPlug.setValue(dataWrapper);
+
+            // Use the temporary MDagModifier to connect the temp attribute to the
+            // node's 'inMesh'.
+            MPlug inMeshPlug = dagFn.findPlug("inMesh");
+
+            tempMod.connect(tempPlug, inMeshPlug);
+
+            tempMod.doIt();
+
+            // Force the mesh to update by grabbing its output geometry.
+            dagFn.findPlug("outMesh").asMObject();
+
+            // Undo the temporary modifier.
+            tempMod.undoIt();
+        }
+
+        private static void unpackDynMesh(Mesh dynMesh, out MIntArray faceCnx, out MFloatPointArray verticies, out MIntArray faceVtxCt)
+        {
+
+            MIntArray m_faceCnx = new MIntArray();
+            MFloatPointArray m_verticies = new MFloatPointArray();
+            MIntArray m_faceVtxCt = new MIntArray();
+
+            MFloatPoint vtxToAdd = new MFloatPoint();
+
+
+            foreach (var vtx in dynMesh.VertexPositions)
+            {
+                if (MGlobal.isZAxisUp)
+                {
+                    vtxToAdd.x = (float)vtx.X;
+                    vtxToAdd.y = (float)vtx.Y;
+                    vtxToAdd.z = (float)vtx.Z;
+                }
+                else
+                {
+                    vtxToAdd.x = (float)vtx.X;
+                    vtxToAdd.y = (float)vtx.Z;
+                    vtxToAdd.z = -(float)vtx.Y;
+                }
+
+                m_verticies.Add(vtxToAdd);
+            }
+
+            foreach (var fidx in dynMesh.FaceIndices)
+            {
+
+                int vtxCt = (int)fidx.Count;
+                m_faceVtxCt.Add(vtxCt);
+                if (vtxCt == 3)
+                {
+                    m_faceCnx.Add((int)fidx.A);
+                    m_faceCnx.Add((int)fidx.B);
+                    m_faceCnx.Add((int)fidx.C);
+
+                }
+                else
+                {
+                    m_faceCnx.Add((int)fidx.A);
+                    m_faceCnx.Add((int)fidx.B);
+                    m_faceCnx.Add((int)fidx.C);
+                    m_faceCnx.Add((int)fidx.D);
+                }
+
+            }
+
+            verticies = m_verticies;
+            faceCnx = m_faceCnx;
+            faceVtxCt = m_faceVtxCt;
+        }
+
+        private static void unpackTsMesh(TSplineSurface tsMesh, out MIntArray faceCnx, out MFloatPointArray verticies, out MIntArray faceVtxCt)
+        {
+
+            MIntArray m_faceCnx = new MIntArray();
+            MFloatPointArray m_verticies = new MFloatPointArray();
+            MIntArray m_faceVtxCt = new MIntArray();
+
+            MFloatPoint vtxToAdd = new MFloatPoint();
+
+            var tsMeshCompress = tsMesh.CompressIndexes();
+
+            foreach (var vtx in tsMeshCompress.Vertices)
+            {
+                if (MGlobal.isZAxisUp)
+                {
+                    vtxToAdd.x = (float)vtx.PointGeometry.X;
+                    vtxToAdd.y = (float)vtx.PointGeometry.Y;
+                    vtxToAdd.z = (float)vtx.PointGeometry.Z;
+                }
+                else
+                {
+                    vtxToAdd.x = (float)vtx.PointGeometry.X;
+                    vtxToAdd.y = (float)vtx.PointGeometry.Z;
+                    vtxToAdd.z = -(float)vtx.PointGeometry.Y;
+                }
+
+                m_verticies.Add(vtxToAdd);
+            }
+
+            foreach (var fidx in tsMeshCompress.Faces)
+            {
+                
+                int vtxCt = fidx.Vertices.Length;
+                m_faceVtxCt.Add(vtxCt);
+
+                foreach (var fVert in fidx.Vertices)
+                {
+                    m_faceCnx.Add(fVert.Index);
+                }
+
+
+            }
+            verticies = m_verticies;
+            faceCnx = m_faceCnx;
+            faceVtxCt = m_faceVtxCt;
+        }
 
         internal static Mesh MTDMeshFromName(string dagName, string space )
         {
@@ -294,7 +515,7 @@ namespace DynaMaya.Geometry
 
         }
 
-            internal static Mesh MTDMeshFromMayaMesh(MFnMesh mayaMesh, MSpace.Space space)
+        internal static Mesh MTDMeshFromMayaMesh(MFnMesh mayaMesh, MSpace.Space space)
         {
 
             PointList vertices = new PointList(mayaMesh.numVertices);
