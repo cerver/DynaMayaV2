@@ -19,12 +19,23 @@ namespace DynaMaya.Geometry
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        public DMLocator(MDagPath dagShape, MSpace.Space space) 
-            :base (dagShape, space)
+        public DMLocator(MDagPath dagPath, string mspace)
+            : base(dagPath, mspace)
         {
-            DagShape = dagShape;
-            AddEvents(dagShape);
-            DagNode = new MFnDagNode(dagShape);
+            // MayaMesh = new MFnMesh(dagPath);
+            DagShape = dagPath;
+            AddEvents(dagPath);
+            DagNode = new MFnDagNode(dagPath);
+        }
+
+
+        [IsVisibleInDynamoLibrary(false)]
+        public DMLocator(MDagPath dagPath, MSpace.Space space) 
+            :base (dagPath, space)
+        {
+            DagShape = dagPath;
+            AddEvents(dagPath);
+            DagNode = new MFnDagNode(dagPath);
         }
 
         [IsVisibleInDynamoLibrary(false)]

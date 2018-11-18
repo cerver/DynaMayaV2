@@ -11,9 +11,11 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Autodesk.Maya.OpenMaya;
 using Dynamo.Interfaces;
 using Dynamo.Models;
 using Dynamo.ViewModels;
+using DynamoInstallDetective;
 using DynamoShapeManager;
 
 
@@ -54,7 +56,7 @@ namespace DynamoMaya
                 "DynamoUnits.dll",
                 "Tessellation.dll",
                 "Analysis.dll",
-                "GeometryColor.dll",
+                "GeometryColor.dll"
             };
 
 
@@ -107,14 +109,10 @@ namespace DynamoMaya
             // To do: Need to align with Revit when provided a chance.
             PreloadDynamoCoreDlls();
             var corePath = DynamoCorePath;
-            var dynamoRevitExePath = Assembly.GetExecutingAssembly().Location;
-            var dynamoRevitRoot = Path.GetDirectoryName(dynamoRevitExePath);// ...\Revit_xxxx\ folder
+            var dynamoMayaExeLoc = Assembly.GetExecutingAssembly().Location;
+            var dynamoMayaRoot = Path.GetDirectoryName(dynamoMayaExeLoc);// ...\Revit_xxxx\ folder
 
-            //var umConfig = UpdateManagerConfiguration.GetSettings(new DynamoRevitLookUp());
-           // var revitUpdateManager = new DynUpdateManager(umConfig);
-            //revitUpdateManager.HostVersion = revitVersion; // update RevitUpdateManager with the current DynamoRevit Version
-           // revitUpdateManager.HostName = "Dynamo Revit";
-
+  
             var userDataFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "Dynamo", "Dynamo Core");
@@ -124,16 +122,20 @@ namespace DynamoMaya
 
             var geometryFactoryPath = string.Empty;
             var preloaderLocation = string.Empty;
-            PreloadShapeManager(ref geometryFactoryPath, ref preloaderLocation);
+           
 
+            //PreloadShapeManager(out geometryFactoryPath, out preloaderLocation);
+            //Version loadedLibGVersion = new Version(224, 4, 0);
 
+           
+            var loadedLibGVersion = PreloadAsmFromMayaATF();
 
             var model = DynamoModel.Start(
                 new DynamoModel.DefaultStartConfiguration
                 {
                     DynamoCorePath = corePath,
-                    DynamoHostPath = dynamoRevitRoot,
-                    GeometryFactoryPath = geometryFactoryPath,
+                    DynamoHostPath = dynamoMayaRoot,
+                    GeometryFactoryPath = GetGeometryFactoryPath(corePath,loadedLibGVersion ),
                     PathResolver = new PathResolver(userDataFolder, commonDataFolder),
                 });
 
@@ -147,16 +149,15 @@ namespace DynamoMaya
 
         }
 
-        enum Versions { ShapeManager = 224 };
-        private static void PreloadShapeManager(ref string geometryFactoryPath, ref string preloaderLocation)
+       
+        private static void PreloadShapeManager(out string geometryFactoryPath, out string preloaderLocation)
         {
             var exePath = Assembly.GetExecutingAssembly().Location;
             var rootFolder = Path.GetDirectoryName(exePath);
 
-
-            var versions = new[]
+            var versions = new Version[]
             {
-               LibraryVersion.Version224
+               new Version(223,0,1),
               
             };
 
@@ -165,10 +166,69 @@ namespace DynamoMaya
             geometryFactoryPath = preloader.GeometryFactoryPath;
             preloaderLocation = preloader.PreloaderLocation;
         }
+        internal static Version PreloadAsmFromMayaATF()
+        {
+
+            string asmLocation;
+            Version libGversion = findMayaASMVersion(out asmLocation);
+            
+
+            //var dynCorePath = DynamoRevitApp.DynamoCorePath;
+            var libGFolderName = string.Format("libg_{0}_{1}_{2}", libGversion.Major, libGversion.Minor, libGversion.Build);
+            var preloaderLocation = Path.Combine(DynamoCorePath, libGFolderName);
+
+            DynamoShapeManager.Utilities.PreloadAsmFromPath(preloaderLocation, asmLocation);
+            return libGversion;
+        }
+        /// <summary>
+        /// Returns the version of ASM which is installed with Revit at the requested path.
+        /// This version number can be used to load the appropriate libG version.
+        /// </summary>
+        /// <param name="asmLocation">path where asm dlls are located, this is usually the product(Revit) install path</param>
+        /// <returns></returns>
+        internal static Version findMayaASMVersion(out string asmLocation)
+        {
+
+            var mayaPath = Environment.GetEnvironmentVariable("MAYA_LOCATION");
+            string asmPath = mayaPath + "/plug-ins/ATF/ATF";
+            var asmFile = Directory.GetFiles(asmPath, "ASMAHL*.dll");
+            if (asmFile.Length == 1)
+            {
+                var versionInfo = FileVersionInfo.GetVersionInfo(asmFile[0]);
+                asmLocation = asmPath;
+                return new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart);
+            }
+            else
+            {
+                throw new Exception("Could not find Maya ASM in ATF Plugin Directory");
+                
+            }
+
+
+           //var lookup = new InstalledProductLookUp("Maya", "ASMAHL*.dll");
+            //var product = lookup.GetProductFromInstallPath(asmLocation);
+           // var libGversion = new Version(product.VersionInfo.Item1, product.VersionInfo.Item2, product.VersionInfo.Item3);
+            //return libGversion;
+        }
+
+        public static string GetGeometryFactoryPath(string corePath, Version version)
+        {
+            var dynamoAsmPath = Path.Combine(corePath, "DynamoShapeManager.dll");
+            var assembly = Assembly.LoadFrom(dynamoAsmPath);
+            if (assembly == null)
+                throw new FileNotFoundException("File not found", dynamoAsmPath);
+
+            var utilities = assembly.GetType("DynamoShapeManager.Utilities");
+            var getGeometryFactoryPath = utilities.GetMethod("GetGeometryFactoryPath2");
+
+            return (getGeometryFactoryPath.Invoke(null,
+                new object[] { corePath, version }) as string);
+        }
+
 
         private static void PreloadDynamoCoreDlls()
         {
-            // Assume Revit Install folder as look for root. Assembly name is compromised.
+          
             var assemblyList = new[]
             {
                 "SDA\\bin\\ICSharpCode.AvalonEdit.dll"

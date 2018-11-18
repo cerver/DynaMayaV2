@@ -36,36 +36,27 @@ namespace DynamoMaya
         static string wpfTitle;
         static string hostTitle;
 
-        internal DynamoViewModel viewModel = null;
+        private DynamoViewModel viewModel = null;
 
         // internal RemoteConnection remoteCon;
         public override void doIt(MArgList argl)
         {
             //ToDo: fix embeded wpf dockble window
-            /*
-             if (!String.IsNullOrEmpty(wpfTitle))
-             {
-                 // Check the existence of the window
+            MGlobal.displayInfo("DynaMaya is starting........");
 
-                 int wndExist = int.Parse(MGlobal.executeCommandStringResult($@"format -stringArg `control -q -ex ""{wpfTitle}""` ""^1s"""));
-                 if (wndExist > 0)
-                 {
+       
 
-                     try
-                     {  
-                         view.Show();
-                         MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{wpfTitle}""`);");
-                         return;
-                     }catch
-                     {
-                         view.Close();
-                         view = null;
-                         MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{wpfTitle}""`);");
-                     }
+            if (!String.IsNullOrEmpty(wpfTitle))
+            {
+                // Check the existence of the window
+                int wndExist = int.Parse(MGlobal.executeCommandStringResult($@"format -stringArg `control -q -ex ""{wpfTitle}""` ""^1s"""));
+                if (wndExist > 0)
+                {
+                    MGlobal.executeCommand($@"catch (`workspaceControl -e -visible true ""{hostTitle}""`);");
+                    return;
+                }
+            }
 
-
-                 }
-             }*/
             if (view != null)
             {
                 if (view.IsVisible)
@@ -81,42 +72,43 @@ namespace DynamoMaya
             SubscribeAssemblyResolvingEvent();
             UpdateSystemPathForProcess();
             
-            //DynamoViewModel viewModel = null;
-            //DynamayaStartup.SetupDynamo(out viewModel);
+        
             DynamayaStartup dmStartup = new DynamayaStartup();
             dmStartup.SetupDynamo(out viewModel);
-
 
             // show the window
             
             view = InitializeCoreView(viewModel);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            
-
-            view.Closed += View_Closed;
+            view.Show();
 
             // Extract the window handle of the window we want to dock
-           // IntPtr mWindowHandle = new WindowInteropHelper(view).Handle;
+            IntPtr mWindowHandle = new WindowInteropHelper(view).Handle;
+            view.Closed += View_Closed;
 
-            //var title = view.Title;
-            wpfTitle = "DynaMaya";
-            hostTitle = wpfTitle;
+            
 
             int width = (int)view.Width;
             int height = (int)view.Height;
 
+            var title = view.Title;
+            wpfTitle = title + " Internal";
+            hostTitle = title;
+
             view.Title = wpfTitle;
-
-            view.Show();
-
-           //ayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
+           
+            
+            mayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
+            
 
             uint flagIdx = argl.flagIndex(flagName);
             if (flagIdx == MArgList.kInvalidArgIndex)
             {
                 // Create a workspace-control to wrap the native window wrapper, and use it as the parent of this WPF window
-               // CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
+                CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
             }
+
+           
 
             MGlobal.displayInfo("DynaMaya: Dynamo for Maya |  Copyright© 2018 CERVER Design Studio & Robert Cervellione | http://www.cerver.io");
             MGlobal.displayInfo("For more information on Dynamo please visit http://www.dynamobim.com");
@@ -126,9 +118,15 @@ namespace DynamoMaya
         private void View_Closed(object sender, EventArgs e)
         {
             DynamoView dv = (DynamoView)sender;
-            dv.Close();
-            dv = null;
-            
+            if (!viewModel.PerformShutdownSequence(new DynamoViewModel.ShutdownParams(false, true, true)))
+            {
+                MGlobal.displayWarning("Could not shut down");
+            }
+            MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{hostTitle}""`);");
+            view.Dispose();
+            //dv.Close();
+            //dv = null;
+
         }
 
         private static void UpdateSystemPathForProcess()
@@ -186,51 +184,10 @@ namespace DynamoMaya
             var dynamoView = new DynamoView(dynamoViewModel);
             new WindowInteropHelper(dynamoView).Owner = mwHandle;
 
-            //handledCrash = false;
-
-            //dynamoView.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
-            //dynamoView.Closed += DynamoView_Closed;
-            //dynamoView.Closing += DynamoView_Closing;
-            dynamoViewModel.RequestClose += DynamoViewModel_RequestClose;
-
             return dynamoView;
         }
 
-   
-        private static void DynamoViewModel_RequestClose(object sender, EventArgs e)
-        {
-            DynamoViewModel dvm = (DynamoViewModel)sender;
-            dvm.Exit(true);
-            dvm = null;
-        }
-
-
-        public class DockWPFPlugin : IExtensionPlugin
-        {
-            public ServiceHost sh { get; set; }
-
-            public bool InitializePlugin()
-            {
-                // establish IPC
-                try
-                {
-                }
-                catch
-                {
-                }
-                return true;
-            }
-
-            public bool UninitializePlugin()
-            {
-                return true;
-            }
-
-            public string GetMayaDotNetSdkBuildVersion()
-            {
-                return "";
-            }
-        }
+  
 
         private static void CreateWorkspaceControl(string content, string hostName, int width, int height, bool retain = true, bool floating = true)
         {
@@ -255,5 +212,23 @@ namespace DynamoMaya
         }
     }
 
-   
+    public class StartDynamayaPlugin : IExtensionPlugin
+    {
+        bool IExtensionPlugin.InitializePlugin()
+        {
+            return true;
+        }
+
+        bool IExtensionPlugin.UninitializePlugin()
+        {
+            return true;
+        }
+
+        string IExtensionPlugin.GetMayaDotNetSdkBuildVersion()
+        {
+            String version = "201353";
+            return version;
+        }
+    }
+
 }

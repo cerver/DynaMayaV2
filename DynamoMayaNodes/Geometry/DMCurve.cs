@@ -23,6 +23,18 @@ namespace DynaMaya.Geometry
         public DMCurve(MDagPath dagPath, MSpace.Space space)
             : base(dagPath, space)
         {
+            DagShape = dagPath;
+            AddEvents(dagPath);
+            DagNode = new MFnDagNode(dagPath);
+        }
+
+        [IsVisibleInDynamoLibrary(false)]
+        public DMCurve(MDagPath dagPath, string space)
+            : base(dagPath, space)
+        {
+            DagShape = dagPath;
+            AddEvents(dagPath);
+            DagNode = new MFnDagNode(dagPath);
         }
 
         //methods

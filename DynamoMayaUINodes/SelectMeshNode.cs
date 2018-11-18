@@ -25,13 +25,8 @@ namespace DynaMaya.UINodes
 
     [NodeName("Get Selected Mesh")]
     [NodeCategory("DynaMaya.Interop.Select")]
-
     [NodeDescription("Select Maya Mesh")]
-
     [OutPortTypes("Mesh","string","MayaMesh")]
-   // [OutPortTypes("string")]
-    // Add the IsDesignScriptCompatible attribute to ensure
-    // that it gets loaded in Dynamo.
     [IsDesignScriptCompatible]
     public class SelectMeshNode : NodeModel
     {
@@ -204,19 +199,16 @@ namespace DynaMaya.UINodes
         /// </summary>
         public SelectMeshNode()
         {
-
             OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh", "The Dynamo Mesh (Will only show if the mesh is quad or triangle)")));
             OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh Name", "The name of the object in Maya")));
             OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Mesh", "This is the Maya Mesh typology which gives you access to all of the mesh including NGone mesh data")));
 
-
             RegisterAllPorts();
-
-
             ArgumentLacing = LacingStrategy.Shortest;
-           // SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
-           // ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
-            this.CanUpdatePeriodically = true;
+            CanUpdatePeriodically = true;
+            PortDisconnected += Node_PortDisconnected;
+            SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
+            ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
 
         }
 
@@ -227,9 +219,7 @@ namespace DynaMaya.UINodes
         [JsonConstructor]
         SelectMeshNode(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
-            this.PortDisconnected += Node_PortDisconnected;
-            SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
-            ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
+            
         }
 
         // Restore default button/window text and trigger UI update

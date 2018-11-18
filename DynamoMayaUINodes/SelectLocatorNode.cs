@@ -17,6 +17,7 @@ using ProtoCore.AST.AssociativeAST;
 using DynaMaya.Nodes.Properties;
 using DynaMaya.Util;
 using Dynamo.Graph.Nodes;
+using Newtonsoft.Json;
 
 namespace DynaMaya.UINodes
 {
@@ -35,6 +36,9 @@ namespace DynaMaya.UINodes
         private MSpace.Space _space = MSpace.Space.kWorld;
         private bool firstRun = true;
         private bool _hasBeenDeleted = false;
+        private bool m_liveUpdate = false;
+        private bool isFromUpdate = false;
+        private bool isUpdating = false;
         private int updateInterval = 300;
         private string m_updateInterval = "50";
         private string m_mSpace = MSpace.Space.kWorld.ToString();
@@ -45,6 +49,7 @@ namespace DynaMaya.UINodes
 
         #region properties
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "mSpace")]
         public string mSpace
         {
             get
@@ -58,6 +63,29 @@ namespace DynaMaya.UINodes
                 RaisePropertyChanged("NodeMessage");
             }
         }
+
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "liveUpdate")]
+        public bool liveUpdate
+        {
+            get
+            {
+                return m_liveUpdate;
+            }
+            set
+            {
+                m_liveUpdate = value;
+                if (m_liveUpdate)
+                {
+                    registerUpdateEvents();
+                }
+                else
+                {
+                    unRegisterUpdateEvents();
+                }
+                RaisePropertyChanged("liveUpdate");
+            }
+        }
         /// <summary>
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
@@ -69,6 +97,44 @@ namespace DynaMaya.UINodes
 
 
         #endregion
+        // Use the VMDataBridge to safely retrieve our input values
+        #region databridge callback
+        /// <summary>
+        /// Register the data bridge callback.
+        /// </summary>
+        protected override void OnBuilt()
+        {
+            base.OnBuilt();
+            VMDataBridge.DataBridge.Instance.RegisterCallback(GUID.ToString(), DataBridgeCallback);
+            isUpdating = false;
+        }
+
+
+
+        /// <summary>
+        /// Callback method for DataBridge mechanism.
+        /// This callback only gets called when 
+        ///     - The AST is executed
+        ///     - After the BuildOutputAST function is executed 
+        ///     - The AST is fully built
+        /// </summary>
+        /// <param name="data">The data passed through the data bridge.</param>
+        private void DataBridgeCallback(object data)
+        {
+            try
+            {
+                var dataObj = data;
+                //JsonConvert.SerializeObject(SelectedItems);
+
+            }
+            catch
+            {
+                Warning("DataBridge callback failed");
+            }
+        }
+        #endregion
+
+
 
         #region constructor
 
@@ -181,106 +247,31 @@ namespace DynaMaya.UINodes
             };
         }
 
-
-        protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
+        internal void registerUpdateEvents()
         {
-            base.SerializeCore(nodeElement, context);
-            if (this.SelectedItems != null)
+            if (SelectedItems != null)
             {
-                XmlElement nameElement = nodeElement.OwnerDocument.CreateElement("LocatorItemNames");
-
-                string nameList = "";
-                foreach (var key in SelectedItems.Keys)
+                foreach (KeyValuePair<string, DMLocator> itm in SelectedItems)
                 {
-                    nameList += key + ",";
-
+                    itm.Value.AddEvents(itm.Value.DagShape);
+                    itm.Value.Changed += MObjOnChanged;
                 }
-                nameElement.SetAttribute("value", nameList);
-                nodeElement.AppendChild(nameElement);
-
-                XmlElement spaceElement = nodeElement.OwnerDocument.CreateElement("LocatorMspace");
-                spaceElement.SetAttribute("value", mSpace);
-                nodeElement.AppendChild(spaceElement);
-            }
-
-        }
-
-        protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
-        {
-            base.DeserializeCore(nodeElement, context);
-
-            // int index = -1;
-            List<string> names = new List<string>();
-
-
-            foreach (XmlNode subNode in nodeElement.ChildNodes)
-            {
-                string nameList = null;
-
-                if (subNode.Name.Equals("LocatorItemNames"))
-                {
-
-                    try
-                    {
-
-                        nameList = subNode.Attributes[0].Value;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-
-                    if (nameList != null)
-                    {
-                        names.AddRange(nameList.Split(','));
-                        names.RemoveAt(names.Count - 1);
-                    }
-
-
-
-                }
-                else if (subNode.Name.Equals("LocatorMspace"))
-                {
-                    try
-                    {
-                        mSpace = subNode.Attributes[0].Value;
-
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-
-            }
-
-            if (names.Count > 0)
-            {
-                AddItemsFromDeserialize(names);
             }
         }
 
-        internal void AddItemsFromDeserialize(List<string> itms)
+        internal void unRegisterUpdateEvents()
         {
-            SelectedItems = new Dictionary<string, DMLocator>(itms.Count);
-
-            for (int i = 0; i < itms.Count; i++)
+            if (SelectedItems != null)
             {
-                try
+                foreach (KeyValuePair<string, DMLocator> itm in SelectedItems)
                 {
-                    var tempCrv = new DMLocator(DMInterop.getDagNode(itms[i]), _space);
-                    SelectedItems.Add(itms[i], tempCrv);
-                    tempCrv.Changed += MObjOnChanged;
-                    tempCrv.Deleted += MObjOnDeleted;
+                    itm.Value.Changed -= MObjOnChanged;
+                    itm.Value.RemoveEvents(itm.Value.DagShape);
                 }
-                catch (Exception)
-                {
-                    MGlobal.displayWarning(string.Format("the object {0} was not found and was removed from the selection list", itms[i]));
-                }
-                
             }
-
         }
+
+
 
         internal void GetNewGeom()
         {

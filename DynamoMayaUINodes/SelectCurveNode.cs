@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Xml;
+using System.Xml.Serialization;
 using Autodesk.DesignScript.Geometry;
-using Autodesk.DesignScript.Runtime;
 using Autodesk.Maya.OpenMaya;
 using Dynamo.Controls;
 using Dynamo.Graph;
@@ -14,41 +13,52 @@ using Dynamo.UI.Commands;
 using Dynamo.Wpf;
 using DynaMaya.Geometry;
 using DynaMaya.NodeUI;
-using DynaMaya.Util;
+using Autodesk.DesignScript.Runtime;
 using ProtoCore.AST.AssociativeAST;
-using DynaMaya.Nodes.Properties;
-using Dynamo.Events;
-
+using DynaMaya.Util;
+using Newtonsoft.Json;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace DynaMaya.UINodes
 {
+
     [NodeName("Get Selected Curves")]
     [NodeCategory("DynaMaya.Interop.Select")]
+    [NodeDescription("Select Maya Curve")]
+    [OutPortTypes("Curve","string","MayaCurve")]
     [IsDesignScriptCompatible]
     public class SelectCurveNode : NodeModel
     {
         #region private members
     
-        private AssociativeNode _curveLstNode = AstFactory.BuildNullNode();
+        private AssociativeNode _GeomLstNode = AstFactory.BuildNullNode();
         private AssociativeNode _SelectedNameLstNode = AstFactory.BuildNullNode();
-        private MSpace.Space _space = MSpace.Space.kWorld;
+        private AssociativeNode _mayaGeom = AstFactory.BuildNullNode();
+        private MSpace.Space space = MSpace.Space.kWorld;
         private bool firstRun = true;
-        private bool _hasBeenDeleted = false;
+        private bool hasBeenDeleted = false;
+        private bool m_liveUpdate = false;
+        private bool isFromUpdate = false;
+        private bool isUpdating = false;
 
-        private int updateInterval = 300;
-        private string m_updateInterval = "50";
         private string m_mSpace = MSpace.Space.kWorld.ToString();
         private Dictionary<string, DMCurve> SelectedItems;
+        private List<string> m_SelectedItemNames = new List<string>();
+        private string m_SelectedItemNamesString = "";
 
-        private string currentFile = "";
-        private bool differUpdate = false;
+        private Dictionary<string ,AssociativeNode> dynamoElement = null;
+        private Dictionary<string, AssociativeNode> mayaName = null;
+        private Dictionary<string, AssociativeNode> mayaGeom = null;
 
-        private bool exacutionComplete = false;
+        private Func<string, string, Curve> dynamoElementFunc = DMCurve.ToDynamoElement;
+  
 
         #endregion
 
         #region properties
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "mSpace")]
         public string mSpace
         {
             get
@@ -58,21 +68,125 @@ namespace DynaMaya.UINodes
             set
             {
                 m_mSpace = value;
-                Enum.TryParse(m_mSpace, out _space);
-                RaisePropertyChanged("NodeMessage");
+                Enum.TryParse(m_mSpace, out space);
+                RaisePropertyChanged("mSpace");
             }
         }
+
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "liveUpdate")]
+        public bool liveUpdate
+        {
+            get
+            {
+                return m_liveUpdate;
+            }
+            set
+            {
+                m_liveUpdate = value;
+                if(m_liveUpdate)
+                {
+                    registerUpdateEvents();
+                }
+                else
+                {
+                    unRegisterUpdateEvents();
+                }
+                RaisePropertyChanged("liveUpdate");
+            }
+        }
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "SelectedItemNamesString")]
+        public string SelectedItemNamesString
+        {
+            get
+            {
+                return m_SelectedItemNamesString;
+            }
+            set
+            {
+                m_SelectedItemNamesString = value;
+                DeserializeNameList(m_SelectedItemNamesString);
+
+                RaisePropertyChanged("SelectedItemNamesString");
+                OnNodeModified();
+            }
+        }
+
+        private void DeserializeNameList(string nameListString)
+        {
+            var splitNames = nameListString.Split(',');
+            if (splitNames.Length > 0)
+            {
+                SelectedItems = new Dictionary<string, DMCurve>(splitNames.Length);
+              
+                foreach (var name in splitNames)
+                {
+                    try
+                    {
+                        var itm = new DMCurve(DMInterop.getDagNode(name), space);
+                        itm.Deleted += MObjOnDeleted;
+                        itm.Changed += MObjOnChanged;
+                        SelectedItems.Add(itm.dagName, itm);
+                    }
+                    catch
+                    {
+                        Warning($"Object {name} does not exist or is not valid");
+                    }
+                    
+                    
+
+                }
+            }
+
+        }
+
         /// <summary>
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand SelectBtnCmd { get; set; }
 
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand ManualUpdateCmd { get; set; }
 
- 
+        #endregion
+
+        // Use the VMDataBridge to safely retrieve our input values
+        #region databridge callback
+        /// <summary>
+        /// Register the data bridge callback.
+        /// </summary>
+        protected override void OnBuilt()
+        {
+            base.OnBuilt();
+            VMDataBridge.DataBridge.Instance.RegisterCallback(GUID.ToString(), DataBridgeCallback);
+            isUpdating = false;
+        }
+
+      
+
+        /// <summary>
+        /// Callback method for DataBridge mechanism.
+        /// This callback only gets called when 
+        ///     - The AST is executed
+        ///     - After the BuildOutputAST function is executed 
+        ///     - The AST is fully built
+        /// </summary>
+        /// <param name="data">The data passed through the data bridge.</param>
+        private void DataBridgeCallback(object data)
+        {
+            try
+            {
+                var dataObj = data;
+                //JsonConvert.SerializeObject(SelectedItems);
+              
+            }catch
+            {
+                Warning("DataBridge callback failed");
+            }
+        }
         #endregion
 
         #region constructor
@@ -82,44 +196,37 @@ namespace DynaMaya.UINodes
         /// the input and output ports and specify the argument
         /// lacing.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
         public SelectCurveNode()
         {
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Curve", "The Dynamo Object ")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Name", "The name of the object in Maya")));
+           // OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Mesh", "This is the Maya Mesh typology which gives you access to all of the mesh including NGone mesh data")));
 
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Curve", "The Maya Curve as a Dynamo Curve ")));
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Curve Name", "The name of the object in Maya")));
-           
-
-            // This call is required to ensure that your ports are
-            // properly created.
             RegisterAllPorts();
-
-            // The arugment lacing is the way in which Dynamo handles
-            // inputs of lists. If you don't want your node to
-            // support argument lacing, you can set this to LacingStrategy.Disabled.
             ArgumentLacing = LacingStrategy.Shortest;
+            CanUpdatePeriodically = true;
+            PortDisconnected += Node_PortDisconnected;
             SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
             ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
-            this.CanUpdatePeriodically = true;
-
-            Dynamo.Events.ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
-            ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
 
         }
 
-        private void ExecutionEvents_GraphPreExecution(Dynamo.Session.IExecutionSession session)
+        // Starting with Dynamo v2.0 you must add Json constructors for all nodeModel
+        // dervived nodes to support the move from an Xml to Json file format.  Failing to
+        // do so will result in incorrect ports being generated upon serialization/deserialization.
+        // This constructor is called when opening a Json graph.
+        [JsonConstructor]
+        SelectCurveNode(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
-            exacutionComplete = false;
+            
         }
 
-        private void ExecutionEvents_GraphPostExecution(Dynamo.Session.IExecutionSession session)
+        // Restore default button/window text and trigger UI update
+        private void Node_PortDisconnected(PortModel obj)
         {
-            //MessageBox.Show("has fully exacuted");
-            exacutionComplete = true;
-
+            SelectedItems = new Dictionary<string, DMCurve>() ;
 
         }
-
 
         #endregion
 
@@ -136,166 +243,121 @@ namespace DynaMaya.UINodes
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-           
-            Func<string, string, Curve> func = DMCurve.ToDynamoElement;
-            List<AssociativeNode> newInputs = null;
-            List<AssociativeNode> newNameInputs = null;
+            this.ClearErrorsAndWarnings();
 
-           
-
-            if (SelectedItems == null || _hasBeenDeleted)
+ 
+            if (SelectedItems == null || hasBeenDeleted)
             {
-                SelectedItems = new Dictionary<string, DMCurve>();
-                _curveLstNode = AstFactory.BuildNullNode();
+                
+                _GeomLstNode = AstFactory.BuildNullNode();
                 _SelectedNameLstNode = AstFactory.BuildNullNode();
-                _hasBeenDeleted = false;
+                _mayaGeom = AstFactory.BuildNullNode();
+                hasBeenDeleted = false;
+ 
             }
             else
             {
                 if (SelectedItems.Count > 0)
                 {
-
-                    newInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    newNameInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    foreach (var dag in SelectedItems.Values)
+                    //only rebuild the entire list of geom if needed. otherwise this has been created and is built and updated as needed on only the geometry that has changed
+                    if (!isFromUpdate)
                     {
-                        newInputs.Add(AstFactory.BuildFunctionCall(
-                            func,
-                            new List<AssociativeNode>
-                            {
-                                AstFactory.BuildStringNode(dag.DagNode.partialPathName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                            }));
+                        dynamoElement = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        mayaName = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        mayaGeom = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
 
-                        newNameInputs.Add(AstFactory.BuildStringNode(dag.DagShape.partialPathName));
+                        foreach (var dag in SelectedItems.Values)
+                        {
+                            buildAstNodes(dag.dagName);
+
+                        }
                     }
 
-                    _curveLstNode = AstFactory.BuildExprList(newInputs);
-                    _SelectedNameLstNode = AstFactory.BuildExprList(newNameInputs);
+
+                    _GeomLstNode = AstFactory.BuildExprList(dynamoElement.Values.ToList());
+                    _SelectedNameLstNode = AstFactory.BuildExprList(mayaName.Values.ToList());
+                    _mayaGeom = AstFactory.BuildExprList(mayaGeom.Values.ToList());
+
 
                 }
                 else
-                    _curveLstNode = AstFactory.BuildNullNode();
-
+                {
+                    _GeomLstNode = AstFactory.BuildNullNode();
+                }
 
             }
 
-
+            isFromUpdate = false;
 
             return new[]
             {
 
-                AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(0), _curveLstNode),
-                    AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(1), _SelectedNameLstNode)
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _GeomLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(1), _SelectedNameLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(2), _mayaGeom),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes)))
+
 
             };
         }
 
-        protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
+        internal void buildAstNodes(string dagName)
         {
-            base.SerializeCore(nodeElement, context);
-            if (this.SelectedItems != null)
-            {
-                XmlElement nameElement = nodeElement.OwnerDocument.CreateElement("CurveItemNames");
- 
-                string nameList = "";
-                foreach (var key in SelectedItems.Keys)
+            mayaName.Add(dagName, AstFactory.BuildStringNode(dagName));
+
+            /*
+            mayaGeom.Add(dagName, AstFactory.BuildFunctionCall(
+                MayaElementFunc,
+                new List<AssociativeNode>
                 {
-                    nameList += key + ",";
-                  
-                }
-                nameElement.SetAttribute("value", nameList);
-                nodeElement.AppendChild(nameElement);
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                })); */
 
-                XmlElement spaceElement = nodeElement.OwnerDocument.CreateElement("CurveMspace");
-                spaceElement.SetAttribute("value", mSpace);
-                nodeElement.AppendChild(spaceElement);
-            }
-
+            dynamoElement.Add(dagName, AstFactory.BuildFunctionCall(
+                dynamoElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
         }
 
-        protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
+        internal void registerUpdateEvents()
         {
-            base.DeserializeCore(nodeElement, context);
-     
-           // int index = -1;
-            List<string> names = new List<string>();
-           
-
-            foreach (XmlNode subNode in nodeElement.ChildNodes)
+            if(SelectedItems !=null)
             {
-                string nameList = null;
-
-                if (subNode.Name.Equals("CurveItemNames"))
+                foreach (KeyValuePair<string, DMCurve> itm in SelectedItems)
                 {
-                   
-                    try
-                    {
-      
-                        nameList = subNode.Attributes[0].Value;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-
-                    if (nameList != null)
-                    {
-                        names.AddRange(nameList.Split(','));
-                        names.RemoveAt(names.Count-1);
-                    }
-
- 
-
+                    itm.Value.AddEvents(itm.Value.DagShape);
+                    itm.Value.Changed += MObjOnChanged;
                 }
-                else if (subNode.Name.Equals("CurveMspace"))
-                {
-                    try
-                    {
-                        mSpace = subNode.Attributes[0].Value;
-                     
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-        
-            }
-
-            if (names.Count>0)
-            {
-                AddItemsFromDeserialize(names);
             }
         }
 
-        internal void AddItemsFromDeserialize(List<string> itms )
+        internal void unRegisterUpdateEvents()
         {
-            SelectedItems = new Dictionary<string, DMCurve>(itms.Count);
-
-            for (int i=0; i<itms.Count; i++)
+            if (SelectedItems != null)
             {
-                try
+                foreach (KeyValuePair<string, DMCurve> itm in SelectedItems)
                 {
-                    var tempCrv = new DMCurve(DMInterop.getDagNode(itms[i]), _space);
-                    SelectedItems.Add(itms[i], tempCrv);
-                    tempCrv.Changed += MObjOnChanged;
-                    tempCrv.Deleted += MObjOnDeleted;
-
-                }
-                catch (Exception)
-                {
-                    MGlobal.displayWarning(string.Format("the object {0} was not found and was removed from the selection list", itms[i]));
+                    itm.Value.Changed -= MObjOnChanged;
+                    itm.Value.RemoveEvents(itm.Value.DagShape);
                 }
             }
-            GetNewGeom();
-
         }
 
-        internal void GetNewGeom(bool isFromDeserial = false)
+        internal void GetNewGeom()
         {
+           // VMDataBridge.DataBridge.Instance.UnregisterCallback(GUID.ToString());
             if (firstRun)
                 firstRun = false;
             else
@@ -310,58 +372,166 @@ namespace DynaMaya.UINodes
 
             }
 
-
             MSelectionList selectionList = new MSelectionList();
-            MGlobal.getActiveSelectionList(selectionList);
+            MGlobal.getActiveSelectionList(selectionList,true);
 
-
-            var DagObjectList = selectionList.DagPaths(MFn.Type.kCurve).ToList();
-            SelectedItems = new Dictionary<string, DMCurve>(DagObjectList.Count);
-
-            foreach (var dag in DagObjectList)
+            if(selectionList.isEmpty)
             {
-                var itm = new DMCurve(dag, _space);
-                itm.Changed += MObjOnChanged;
-                itm.Deleted += MObjOnDeleted;
-                SelectedItems.Add(itm.DagShape.partialPathName, itm);
-
+                SelectedItems = null;
+                OnNodeModified(true);
+                return;
             }
 
- 
+            var TransObjectList = selectionList.DagPaths(MFn.Type.kTransform).ToList();
+            var DagObjectList = selectionList.DagPaths(MFn.Type.kMesh).ToList();
+            SelectedItems = new Dictionary<string, DMCurve>(DagObjectList.Count);
+            m_SelectedItemNames = new List<string>(DagObjectList.Count);
+         
+            foreach (var dag in TransObjectList)
+            {
+                if (dag.hasFn(MFn.Type.kCurve))
+                {
+                    var itm = new DMCurve(dag, space);
+                    itm.Renamed += Itm_Renamed;
+                    itm.Deleted += MObjOnDeleted;
+                    SelectedItems.Add(itm.dagName, itm);
+                    m_SelectedItemNames.Add(itm.dagName);
+                   // ct++;
+                }
+            }
+
+            m_SelectedItemNamesString = ConvertStringListToString(m_SelectedItemNames);
 
             OnNodeModified(true);
+        }
+
+        internal void rebuildItemNameList(bool updateNameListString = true)
+        {
+            m_SelectedItemNames = new List<string>(SelectedItems.Count);
+            foreach (var itm in SelectedItems)
+            {
+                m_SelectedItemNames.Add(itm.Value.dagName);
+            }
+
+            if (updateNameListString)
+            {
+                ConvertStringListToString(m_SelectedItemNames);
+            }
+        }
+
+        internal static string ConvertStringListToString(List<string> stringList)
+        {
+            string listAsString = "";
+            for(int i=0; i<stringList.Count-1; i++)
+            {
+                listAsString += stringList[i] + ",";
+            }
+            listAsString += stringList[stringList.Count - 1];
+            return listAsString;
         }
 
         internal void MObjOnDeleted(object sender, MFnDagNode dagNode)
         {
 
-
-            if (SelectedItems != null && SelectedItems.Count > 0)
+            isFromUpdate = true;
+            if (SelectedItems != null && SelectedItems.Count>0)
             {
-
+                var dag = (DMCurve)sender;
                 if (SelectedItems.Count == 1)
-                    _hasBeenDeleted = true;
-
-
-               // var uuidstr = dagNode.uuid().asString();
-                if (SelectedItems.ContainsKey(dagNode.partialPathName))
                 {
-                    SelectedItems[dagNode.partialPathName].Dispose();
-                    SelectedItems.Remove(dagNode.partialPathName);
+                    hasBeenDeleted = true;
+                    SelectedItems = null;
+                    OnNodeModified(true);
+                    return;
                 }
+             
 
-
+                if (SelectedItems.ContainsKey(dag.dagName))
+                {
+                    SelectedItems.Remove(dag.dagName);
+                    dynamoElement.Remove(dag.dagName);
+                    mayaGeom.Remove(dag.dagName);
+                    mayaName.Remove(dag.dagName);
+                   
+                    
+                }
+                
+               
                 OnNodeModified(true);
             }
         }
 
         internal void MObjOnChanged(object sender, MFnDagNode dagNode)
         {
-           // if (!differUpdate)
-               // MarkNodeAsModified(true);
-            if(exacutionComplete) MarkNodeAsModified(true);
+            if (!isUpdating)
+            {
+                isUpdating = true;
+
+                var dag = new DMCurve(dagNode.dagPath, space);
+
+              //  if (liveUpdate)
+              //  {
+                    isFromUpdate = true;
+
+                    if (SelectedItems.ContainsKey(dag.dagName))
+                    {
+                        SelectedItems[dag.dagName] = dag;
 
 
+                        dynamoElement[dag.dagName] = AstFactory.BuildFunctionCall(
+                                    dynamoElementFunc,
+                                    new List<AssociativeNode>
+                                    {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                                    });
+                    /*
+                        mayaGeom[dag.dagName] = AstFactory.BuildFunctionCall(
+                            MayaElementFunc,
+                            new List<AssociativeNode>
+                            {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                            });*/
+
+                    }
+
+                    OnNodeModified(true);
+                //}
+               // else
+               // {
+                  //  MarkNodeAsModified(true);
+              //  }
+            }
+                
+
+        }
+
+        private void Itm_Renamed(object sender, MFnDagNode dagNode)
+        {
+            //ToDo: get the rename system working
+            var dag = (DMCurve)sender;
+            if (SelectedItems.ContainsKey(dag.dagName))
+            {
+                string newName = dagNode.partialPathName;
+                string oldName = dag.dagName;
+
+                isFromUpdate = true;
+                SelectedItems.Remove(oldName);
+                mayaName.Remove(oldName);
+                mayaGeom.Remove(oldName);
+
+                var dmGeom = new DMCurve(dagNode.dagPath, m_mSpace);
+                SelectedItems.Add(newName, dmGeom);
+
+                buildAstNodes(newName);
+
+                rebuildItemNameList();
+
+                OnNodeModified(true);
+
+            }
+            dag.Dispose();
         }
 
         #endregion
@@ -374,36 +544,33 @@ namespace DynaMaya.UINodes
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal  void SelectBtnClicked(object obj)
+        public  void SelectBtnClicked(object obj)
         {
             GetNewGeom();
-
         }
 
-
         [IsVisibleInDynamoLibrary(false)]
-        internal void ManualUpdateBtnClicked(object obj)
+        public void ManualUpdateBtnClicked(object obj)
         {
-
-            OnNodeModified(true);
+     
+                OnNodeModified(true);
 
         }
 
         #endregion
+
         [IsVisibleInDynamoLibrary(false)]
         public override void Dispose()
         {
             base.Dispose();
-
+            
             if (SelectedItems != null)
                 foreach (var itm in SelectedItems.Values)
                 {
                     itm.Dispose();
                 }
-
+               
         }
-
-     
     }
 
     /// <summary>
@@ -443,10 +610,7 @@ namespace DynaMaya.UINodes
         /// Here you can do any cleanup you require if you've assigned callbacks for particular 
         /// UI events on your node.
         /// </summary>
-        public void Dispose()
-        {
-           
-        }
+        public void Dispose() { }
     }
 
 }
