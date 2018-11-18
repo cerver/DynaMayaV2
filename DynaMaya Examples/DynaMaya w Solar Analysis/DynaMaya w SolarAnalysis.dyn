@@ -1,0 +1,87 @@
+<Workspace Version="0.9.0.3067" X="-188.557576138951" Y="-62.2847133684527" zoom="0.373320226016576" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Color" resolvedName="DSCore.Color" assemblyName="DSCoreNodes.dll" />
+    <ClassMap partialName="Point.ByCoordinates" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Vector" resolvedName="Autodesk.DesignScript.Geometry.Vector" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Line" resolvedName="Autodesk.DesignScript.Geometry.Line" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Nodes.DSFunction guid="cbc50cbd-95c1-4434-9f8e-9ad52f1dec87" type="Dynamo.Nodes.DSFunction" nickname="Display.BySurfaceColors" x="3034.93815969684" y="581.420664468114" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\..\..\Program%20Files\Dynamo%200.9\Display.dll" function="Display.Display.BySurfaceColors@Autodesk.DesignScript.Geometry.Surface,DSCore.Color[][]" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="52e046f7-75d2-4b25-ba1f-a9b2d84966a3" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1670.87733530732" y="646.725116666957" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="cyan=Color.ByARGB(255,0,0,255);&#xA;orange=Color.ByARGB(255,255,255,0);&#xA;red=Color.ByARGB(255,255,0,0);&#xA;colors={cyan,orange,red,red};&#xA;indices={0,0.05,0.3,1};" ShouldFocus="false" />
+    <DSCoreNodesUI.ColorRange guid="7db2ee5d-a557-4444-94db-f283bee28d37" type="DSCoreNodesUI.ColorRange" nickname="Color Range" x="2543.99618973389" y="818.055295802602" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" />
+    <DSCoreNodesUI.DateTime guid="e4d1c9f5-092f-456e-be10-aef58b48c763" type="DSCoreNodesUI.DateTime" nickname="Date Time" x="772.918882943243" y="949.6494724658" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.DateTime>June 01, 2015 11:00 AM</System.DateTime>
+    </DSCoreNodesUI.DateTime>
+    <DSCoreNodesUI.Input.DoubleSlider guid="8534baff-7e15-4ed3-8144-ea966ba21ce3" type="DSCoreNodesUI.Input.DoubleSlider" nickname="Number Slider" x="935.239498772653" y="1101.57816922783" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.Double>0.5</System.Double>
+      <Range min="0" max="100" step="0.1" />
+    </DSCoreNodesUI.Input.DoubleSlider>
+    <Dynamo.Nodes.DSFunction guid="9cb31445-b00b-410f-8408-9fccebf9db35" type="Dynamo.Nodes.DSFunction" nickname="SolarAnalysis.Analyze" x="1332.63553326636" y="897.625653188413" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\Solar%20Analysis%20for%20Dynamo\bin\DynamoSolarAnalysis.dll" function="DynamoSolarAnalysis.Analysis.SolarAnalysis.Analyze@var,Autodesk.DesignScript.Geometry.Surface[],Autodesk.DesignScript.Geometry.Surface[],var,double,double">
+      <PortInfo index="5" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <DSCoreNodesUI.BoolSelector guid="6dfd7e30-afb6-44d4-a946-f05e859452a9" type="DSCoreNodesUI.BoolSelector" nickname="Boolean" x="856.591095647837" y="1011.26630894694" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.Boolean>True</System.Boolean>
+    </DSCoreNodesUI.BoolSelector>
+    <Dynamo.Nodes.DSFunction guid="b1df58b7-677f-48de-81a8-0af7e318884f" type="Dynamo.Nodes.DSFunction" nickname="TimeStudy.Still" x="1053.30988713932" y="956.546685705162" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\Solar%20Analysis%20for%20Dynamo\bin\DynamoSolarAnalysis.dll" function="DynamoSolarAnalysis.Analysis.TimeStudy.Still@var,bool">
+      <PortInfo index="1" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.DSFunction guid="b302c5b4-df36-4249-8237-807ffdcbe748" type="Dynamo.Nodes.DSFunction" nickname="Weather.FromFile" x="1092.06364120179" y="843.544660738357" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\Solar%20Analysis%20for%20Dynamo\bin\DynamoSolarAnalysis.dll" function="DynamoSolarAnalysis.Weather.Weather.FromFile@string" />
+    <DSCore.File.Filename guid="daab7e1c-c405-45fb-b8bd-b3e90e9952e9" type="DSCore.File.Filename" nickname="File Path" x="669.330030353413" y="835.220616422893" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.String>C:\Users\cerve\AppData\Roaming\Dynamo\0.9\packages\Solar Analysis for Dynamo\extra\USA-NewYorkNewYork.wea</System.String>
+    </DSCore.File.Filename>
+    <DynaMaya.UINodes.SelectSurfacehNode guid="7dff4327-3690-411e-bcba-bca7f960e3bc" type="DynaMaya.UINodes.SelectSurfacehNode" nickname="Get Selected Surface" x="686.711600441991" y="400.947438515191" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True">
+      <SurfaceItemNames value="AnalisiPlaneShape," />
+      <SurfaceMspace value="kWorld" />
+    </DynaMaya.UINodes.SelectSurfacehNode>
+    <DSCoreNodesUI.Input.DoubleSlider guid="9bca8a17-4d3b-473e-b92a-19170a96142d" type="DSCoreNodesUI.Input.DoubleSlider" nickname="Number Slider" x="936.364878859783" y="1175.15471206846" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.Double>30</System.Double>
+      <Range min="0" max="360" step="0.1" />
+    </DSCoreNodesUI.Input.DoubleSlider>
+    <Dynamo.Nodes.DSFunction guid="8a6c984d-687e-431d-ba4f-3bf89c892ddf" type="Dynamo.Nodes.DSFunction" nickname="Flatten" x="1173.45988686694" y="541.363276811565" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="BuiltIn" function="Flatten@var[]..[]" />
+    <DynaMaya.UINodes.SelectSurfacehNode guid="0f6bc2e4-88b2-4234-afc8-c92633263234" type="DynaMaya.UINodes.SelectSurfacehNode" nickname="Get Selected Surface" x="681.821220392349" y="688.282267918863" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True">
+      <SurfaceItemNames value="Facadepnl1|FacadepnlShape1,Facadepnl2|FacadepnlShape1,Facadepnl3|FacadepnlShape1," />
+      <SurfaceMspace value="kWorld" />
+    </DynaMaya.UINodes.SelectSurfacehNode>
+    <Dynamo.Nodes.CodeBlockNodeModel guid="6a83c145-f673-4fad-a89b-13b10a8b8a95" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1850.96422844752" y="1066.97096847694" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="0;&#xA;1;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="65bee312-7c4b-445a-b1ba-5c9102f00257" type="Dynamo.Nodes.DSFunction" nickname="Flatten" x="1149.26733100747" y="742.330200014927" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="BuiltIn" function="Flatten@var[]..[]" />
+    <DynaMaya.UINodes.SelectSurfacehNode guid="ab13a814-ff5d-4c9b-b320-b2c8f3e5fe19" type="DynaMaya.UINodes.SelectSurfacehNode" nickname="Get Selected Surface" x="682.101932767964" y="548.16068190574" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True">
+      <SurfaceItemNames value="nurbsPlaneShape8,nurbsPlaneShape9,nurbsPlaneShape10,nurbsPlaneShape11,nurbsPlaneShape12," />
+      <SurfaceMspace value="kWorld" />
+    </DynaMaya.UINodes.SelectSurfacehNode>
+    <DSCoreNodesUI.CreateList guid="20ec306c-585b-439d-a04a-58aab3c6e10e" type="DSCoreNodesUI.CreateList" nickname="List.Create" x="945.478838483516" y="621.693349511854" isVisible="false" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" inputcount="2" />
+    <Dynamo.Nodes.DSFunction guid="1586429c-c027-4db6-8e09-fba9408a8c5d" type="Dynamo.Nodes.DSFunction" nickname="Math.RemapRange" x="1975.81840149401" y="1023.13495639842" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="DSCoreNodes.dll" function="DSCore.Math.RemapRange@double[],double,double">
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+    </Dynamo.Nodes.DSFunction>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="52e046f7-75d2-4b25-ba1f-a9b2d84966a3" start_index="3" end="7db2ee5d-a557-4444-94db-f283bee28d37" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="52e046f7-75d2-4b25-ba1f-a9b2d84966a3" start_index="4" end="7db2ee5d-a557-4444-94db-f283bee28d37" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="7db2ee5d-a557-4444-94db-f283bee28d37" start_index="0" end="cbc50cbd-95c1-4434-9f8e-9ad52f1dec87" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="e4d1c9f5-092f-456e-be10-aef58b48c763" start_index="0" end="b1df58b7-677f-48de-81a8-0af7e318884f" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="8534baff-7e15-4ed3-8144-ea966ba21ce3" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="4" portType="0" />
+    <Dynamo.Models.ConnectorModel start="9cb31445-b00b-410f-8408-9fccebf9db35" start_index="0" end="1586429c-c027-4db6-8e09-fba9408a8c5d" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6dfd7e30-afb6-44d4-a946-f05e859452a9" start_index="0" end="b1df58b7-677f-48de-81a8-0af7e318884f" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="b1df58b7-677f-48de-81a8-0af7e318884f" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="b302c5b4-df36-4249-8237-807ffdcbe748" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="daab7e1c-c405-45fb-b8bd-b3e90e9952e9" start_index="0" end="b302c5b4-df36-4249-8237-807ffdcbe748" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="7dff4327-3690-411e-bcba-bca7f960e3bc" start_index="0" end="8a6c984d-687e-431d-ba4f-3bf89c892ddf" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="9bca8a17-4d3b-473e-b92a-19170a96142d" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="5" portType="0" />
+    <Dynamo.Models.ConnectorModel start="8a6c984d-687e-431d-ba4f-3bf89c892ddf" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="8a6c984d-687e-431d-ba4f-3bf89c892ddf" start_index="0" end="cbc50cbd-95c1-4434-9f8e-9ad52f1dec87" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="0f6bc2e4-88b2-4234-afc8-c92633263234" start_index="0" end="20ec306c-585b-439d-a04a-58aab3c6e10e" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6a83c145-f673-4fad-a89b-13b10a8b8a95" start_index="0" end="1586429c-c027-4db6-8e09-fba9408a8c5d" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6a83c145-f673-4fad-a89b-13b10a8b8a95" start_index="1" end="1586429c-c027-4db6-8e09-fba9408a8c5d" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="65bee312-7c4b-445a-b1ba-5c9102f00257" start_index="0" end="9cb31445-b00b-410f-8408-9fccebf9db35" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="ab13a814-ff5d-4c9b-b320-b2c8f3e5fe19" start_index="0" end="20ec306c-585b-439d-a04a-58aab3c6e10e" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="20ec306c-585b-439d-a04a-58aab3c6e10e" start_index="0" end="65bee312-7c4b-445a-b1ba-5c9102f00257" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="1586429c-c027-4db6-8e09-fba9408a8c5d" start_index="0" end="7db2ee5d-a557-4444-94db-f283bee28d37" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-27.471459507668" eyeY="32.527282704271" eyeZ="11.4426138127466" lookX="28.7794182408773" lookY="-20.4275537546218" lookZ="-17.6433960655297" upX="0.274745428281469" upY="0.946649260115604" upZ="-0.168434343175097" />
+  </Cameras>
+</Workspace>

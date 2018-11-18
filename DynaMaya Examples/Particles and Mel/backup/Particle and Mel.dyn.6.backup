@@ -1,0 +1,72 @@
+<Workspace Version="0.9.0.3067" X="-435.331052942533" Y="93.1512850201846" zoom="0.949208566353179" Name="Home" Description="" RunType="Automatic" RunPeriod="300" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Nodes.DSFunction guid="2d12ade6-b138-4d41-b95c-cb6fa87eddd8" type="Dynamo.Nodes.DSFunction" nickname="Send.MelCommand" x="265.902660858377" y="94.8471130715703" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\DynaMaya\bin\DynaMayaNodes.dll" function="DynaMaya.Nodes.Interop.Send.MelCommand@string" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="a114fd25-a8ad-4e02-a245-53d14011f10b" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="-278.059255541835" y="94.1827705343838" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="&quot;getParticleAttr -at position -array true nParticle1&quot;;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="b9ef9e2a-b9cd-4d86-97c7-a9e273342a82" type="Dynamo.Nodes.DSFunction" nickname="List.Chop" x="502.39647282472" y="106.262378953591" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="DSCoreNodes.dll" function="DSCore.List.Chop@var[]..[],var[]..[]" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="c9da13db-bf86-4c60-a28a-d224a9a20754" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="378.767232929412" y="195.404325441089" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="3;" ShouldFocus="false" />
+    <PythonNodeModels.PythonNode guid="2281a68b-6eca-4a29-831c-e03525bb9a10" type="PythonNodeModels.PythonNode" nickname="Python Script" x="663.534999784963" y="108.960859566431" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+points = [];
+
+for itms in IN[0]:
+	points.append(Point.ByCoordinates(itms[0], -itms[2], itms[1]))
+
+
+#Assign your output to the OUT variable.
+OUT = points</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Nodes.DSFunction guid="33c836c1-2367-4e7b-9eaa-9a5343ee0536" type="Dynamo.Nodes.DSFunction" nickname="List.Chop" x="973.766360397742" y="102.461041245845" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="DSCoreNodes.dll" function="DSCore.List.Chop@var[]..[],var[]..[]" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="17ce5e28-a4ce-4ec8-8345-ae2d0c5e12f0" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="864.878650734152" y="190.258887013655" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="4;" ShouldFocus="false" />
+    <PythonNodeModels.PythonNode guid="3db30cdd-f4ba-4ae5-b12d-3b81b8ab6c29" type="PythonNodeModels.PythonNode" nickname="Python Script" x="834.575717809837" y="30.4660829940652" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+points = []
+dist = -1
+sDist = -1
+clsPts = []
+clsPt
+
+for itms in IN[0]:
+	points = IN[0]
+	points.remove(itms)
+	for p in points:
+		dist = itms.DistanceTo(p)
+		if(dist&lt;sDist):
+			sDist = dist
+			clsPt = p
+	clsPts.append(clsPt)
+			
+	
+
+
+#Assign your output to the OUT variable.
+OUT = clsPts</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="2d12ade6-b138-4d41-b95c-cb6fa87eddd8" start_index="0" end="b9ef9e2a-b9cd-4d86-97c7-a9e273342a82" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a114fd25-a8ad-4e02-a245-53d14011f10b" start_index="0" end="2d12ade6-b138-4d41-b95c-cb6fa87eddd8" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="b9ef9e2a-b9cd-4d86-97c7-a9e273342a82" start_index="0" end="2281a68b-6eca-4a29-831c-e03525bb9a10" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c9da13db-bf86-4c60-a28a-d224a9a20754" start_index="0" end="b9ef9e2a-b9cd-4d86-97c7-a9e273342a82" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="2281a68b-6eca-4a29-831c-e03525bb9a10" start_index="0" end="3db30cdd-f4ba-4ae5-b12d-3b81b8ab6c29" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="17ce5e28-a4ce-4ec8-8345-ae2d0c5e12f0" start_index="0" end="33c836c1-2367-4e7b-9eaa-9a5343ee0536" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="28.8212394714355" eyeY="16.8877964019775" eyeZ="-52.7557716369629" lookX="-21.6783885955811" lookY="-15.1814260482788" lookZ="38.0226516723633" upX="-0.0582159794867039" upY="0.99306845664978" upZ="0.102107487618923" />
+  </Cameras>
+</Workspace>

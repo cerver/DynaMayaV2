@@ -153,8 +153,7 @@
       <DependentUpon>SelectNodeUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="MelCommand.cs" />
-    <Compile Include="SelectLocatorNode - Copy.cs" />
-    <None Include="SelectLocatorNode.cs" />
+    <Compile Include="SelectLocatorNode.cs" />
     <Compile Include="SelectCurveNode.cs" />
     <Compile Include="SelectSurfaceNode.cs" />
     <Compile Include="SelectMeshNode.cs" />

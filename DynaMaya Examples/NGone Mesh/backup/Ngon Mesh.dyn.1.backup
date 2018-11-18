@@ -1,0 +1,36 @@
+<Workspace Version="0.9.0.3067" X="-159.36919657587" Y="-54.7955264979489" zoom="0.70422587858429" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DynaMaya.UINodes.SelectMeshNode guid="b3c6b86f-25a4-4082-985c-286def2a6d8b" type="DynaMaya.UINodes.SelectMeshNode" nickname="Get Selected Mesh" x="52" y="135.2" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True">
+      <MeshItemNames value="pPlaneShape2," />
+      <MeshMspace value="kWorld" />
+    </DynaMaya.UINodes.SelectMeshNode>
+    <Dynamo.Nodes.DSFunction guid="a5afcbef-4403-4512-82bc-3ab839aff3b5" type="Dynamo.Nodes.DSFunction" nickname="MeshNodes.getFaceVerticies" x="273.95077917863" y="191.312208074528" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\DynaMaya\bin\DynaMayaNodes.dll" function="DynaMaya.Nodes.Meshes.MeshNodes.getFaceVerticies@var" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="73ecc711-786c-43c5-af2e-da471ad1f942" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="31.6064710987191" y="19.1620337738831" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="&quot;The maya mesh is able to maintian nGone mesh data&quot;;&#xA;&quot;use it to access the more advanced mesh type maya has&quot;;&#xA;&quot;When the mesh contains ngone faces it will not be able to display in dynamo&quot;;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="6cd5d65c-6f3e-43c1-b71c-d44b9664a612" type="Dynamo.Nodes.DSFunction" nickname="Polygon.ByPoints" x="526.258254208486" y="201.326198094867" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Polygon.ByPoints@Autodesk.DesignScript.Geometry.Point[]" />
+    <Dynamo.Nodes.DSFunction guid="489003c3-25cc-4cd7-8470-d7cf12cceabc" type="Dynamo.Nodes.DSFunction" nickname="Surface.ByPatch" x="765.023767246471" y="203.066501745707" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Surface.ByPatch@Autodesk.DesignScript.Geometry.Curve" />
+    <Dynamo.Nodes.DSFunction guid="f8d8e7b3-02e2-4bab-8974-7cf35b054eea" type="Dynamo.Nodes.DSFunction" nickname="MeshNodes.getFaceNormals" x="541.064634900922" y="423.986783186413" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\DynaMaya\bin\DynaMayaNodes.dll" function="DynaMaya.Nodes.Meshes.MeshNodes.getFaceNormals@var" />
+    <Dynamo.Nodes.DSFunction guid="8fc8c4f0-ba31-47bb-87ea-2d2eee4c0bde" type="Dynamo.Nodes.DSFunction" nickname="Line.ByStartPointDirectionLength" x="786.831030150906" y="339.256959230596" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Line.ByStartPointDirectionLength@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Vector,double">
+      <PortInfo index="2" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.DSFunction guid="10dd6472-44dc-4ae1-89f0-513e4393bcca" type="Dynamo.Nodes.DSFunction" nickname="Polygon.Center" x="573.296837315163" y="318.742757298778" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Polygon.Center" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="b3c6b86f-25a4-4082-985c-286def2a6d8b" start_index="2" end="a5afcbef-4403-4512-82bc-3ab839aff3b5" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="b3c6b86f-25a4-4082-985c-286def2a6d8b" start_index="2" end="f8d8e7b3-02e2-4bab-8974-7cf35b054eea" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a5afcbef-4403-4512-82bc-3ab839aff3b5" start_index="0" end="6cd5d65c-6f3e-43c1-b71c-d44b9664a612" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6cd5d65c-6f3e-43c1-b71c-d44b9664a612" start_index="0" end="10dd6472-44dc-4ae1-89f0-513e4393bcca" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="f8d8e7b3-02e2-4bab-8974-7cf35b054eea" start_index="0" end="8fc8c4f0-ba31-47bb-87ea-2d2eee4c0bde" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="10dd6472-44dc-4ae1-89f0-513e4393bcca" start_index="0" end="8fc8c4f0-ba31-47bb-87ea-2d2eee4c0bde" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Models.AnnotationModel guid="a6f0f2f6-5a98-4502-8529-b40d34ad124e" annotationText="You can patch the closed polygons to turn the mesh into nubs patches" left="755.023767246471" top="142.666501745707" width="204" height="153" fontSize="14" InitialTop="203.066501745707" InitialHeight="122.6" TextblockHeight="50.4" backgrouund="#FFC1D676">
+      <Models ModelGuid="489003c3-25cc-4cd7-8470-d7cf12cceabc" />
+    </Dynamo.Models.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="21.6889787183176" eyeY="21.4322485623885" eyeZ="23.5762452516903" lookX="-25.1510005540152" lookY="-24.5101217864495" lookZ="-21.7783132553949" upX="-0.307482708799868" upY="0.9135454576426" upZ="-0.266250034008762" />
+  </Cameras>
+</Workspace>

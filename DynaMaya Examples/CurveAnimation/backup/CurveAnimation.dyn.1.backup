@@ -1,0 +1,35 @@
+<Workspace Version="0.9.0.3067" X="-144.898019288259" Y="39.8638288665304" zoom="0.874461069056599" Name="Home" Description="" RunType="Automatic" RunPeriod="500" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DynaMaya.UINodes.SelectCurveNode guid="3171b78b-d902-4949-896e-f422ef5fdb0f" type="DynaMaya.UINodes.SelectCurveNode" nickname="Get Selected Curves" x="196.5" y="157.585150810815" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True">
+      <CurveItemNames value="curveShape15,curveShape16,curveShape17,curveShape18,curveShape19,curveShape20,curveShape21,curveShape22,curveShape23,curveShape24,curveShape25,curveShape26,curveShape27,curveShape28," />
+      <CurveMspace value="kWorld" />
+    </DynaMaya.UINodes.SelectCurveNode>
+    <Dynamo.Nodes.DSFunction guid="a8e4a9ee-bd42-4ffd-9f05-3beff7c578e6" type="Dynamo.Nodes.DSFunction" nickname="List.Chop" x="458.833827893175" y="223.750741839763" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="DSCoreNodes.dll" function="DSCore.List.Chop@var[]..[],var[]..[]" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="e51c5c1a-491b-46db-85ba-80c52d8f7389" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="304.588430096212" y="427.09366355133" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="2;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="91e97ff6-486f-4245-a6a6-e887527453c2" type="Dynamo.Nodes.DSFunction" nickname="Surface.ByLoft" x="623.467391086513" y="246.297837370581" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Surface.ByLoft@Autodesk.DesignScript.Geometry.Curve[]" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="1f63a16e-286c-4078-9b19-e6aebddd6d49" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="WARNING!!" x="42.2857063883617" y="-18.1285168040028" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="&quot;You can set Dynamo to PERIODIC update but with caution&#xA;&quot;The PERIODIC Update could cause a crash&#xA;&quot;It is recomended to stay on MANUAL or AUTOMATIC which require&#xA;&quot;the UPDATE button to be clicked&quot;;&#xA;&quot;This example works ok at 500ms&quot;;" ShouldFocus="false" />
+    <Dynamo.Nodes.StringInput guid="5428b9b1-cf95-47c2-af1e-d4578c309a97" type="Dynamo.Nodes.StringInput" nickname="String" x="854.374700919806" y="340.730300806097" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True">
+      <System.String>surfaces</System.String>
+      <System.String value="surfaces" />
+    </Dynamo.Nodes.StringInput>
+    <Dynamo.Nodes.DSFunction guid="7f2467c1-27de-4332-b6d8-f7d7e963669f" type="Dynamo.Nodes.DSFunction" nickname="Send.SendGeometry" x="973.382420538949" y="286.798096659676" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="..\..\..\..\..\..\AppData\Roaming\Dynamo\0.9\packages\DynaMaya\bin\DynaMayaNodes.dll" function="DynaMaya.Nodes.Interop.Send.SendGeometry@var[],string[]" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="3171b78b-d902-4949-896e-f422ef5fdb0f" start_index="0" end="a8e4a9ee-bd42-4ffd-9f05-3beff7c578e6" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a8e4a9ee-bd42-4ffd-9f05-3beff7c578e6" start_index="0" end="91e97ff6-486f-4245-a6a6-e887527453c2" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="e51c5c1a-491b-46db-85ba-80c52d8f7389" start_index="0" end="a8e4a9ee-bd42-4ffd-9f05-3beff7c578e6" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5428b9b1-cf95-47c2-af1e-d4578c309a97" start_index="0" end="7f2467c1-27de-4332-b6d8-f7d7e963669f" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Models.AnnotationModel guid="a05a6832-5f0e-4c78-a576-8e493005ba45" annotationText="Connect this to send Geometry back to maya" left="844.374700919806" top="256.798096659676" width="289.407719619143" height="151.732204146421" fontSize="14" InitialTop="286.798096659676" InitialHeight="174.896405563773" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="5428b9b1-cf95-47c2-af1e-d4578c309a97" />
+      <Models ModelGuid="7f2467c1-27de-4332-b6d8-f7d7e963669f" />
+    </Dynamo.Models.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-24.2542095184326" eyeY="37.5463829040527" eyeZ="45.4201965332031" lookX="32.6165390014648" lookY="-23.4782848358154" lookZ="-45.4084968566895" upX="0.105313159525394" upY="0.983571469783783" upZ="-0.146616160869598" />
+  </Cameras>
+</Workspace>
