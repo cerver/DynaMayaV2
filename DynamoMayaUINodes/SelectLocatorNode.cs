@@ -1,49 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
+using System.Xml.Serialization;
 using Autodesk.DesignScript.Geometry;
-using Autodesk.DesignScript.Runtime;
 using Autodesk.Maya.OpenMaya;
 using Dynamo.Controls;
 using Dynamo.Graph;
-
+using Dynamo.Graph.Nodes;
 using Dynamo.UI.Commands;
 using Dynamo.Wpf;
-
 using DynaMaya.Geometry;
 using DynaMaya.NodeUI;
+using Autodesk.DesignScript.Runtime;
 using ProtoCore.AST.AssociativeAST;
-using DynaMaya.Nodes.Properties;
 using DynaMaya.Util;
-using Dynamo.Graph.Nodes;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace DynaMaya.UINodes
 {
- 
+
     [NodeName("Get Selected Locator")]
     [NodeCategory("DynaMaya.Interop.Select")]
-
+    [NodeDescription("Select Maya Locator (as a point or CS)")]
+    [OutPortTypes("CoordinateSystem", "string", "MayaLocator")]
     [IsDesignScriptCompatible]
     public class SelectLocatorNode : NodeModel
     {
         #region private members
-    
+
         private AssociativeNode _locatorLstNode = AstFactory.BuildNullNode();
-        private AssociativeNode _locatorLstNameNode = AstFactory.BuildNullNode();
-        private AssociativeNode _locatorLstRotationNode = AstFactory.BuildNullNode();
-        private MSpace.Space _space = MSpace.Space.kWorld;
+        private AssociativeNode _SelectedNameLstNode = AstFactory.BuildNullNode();
+        private AssociativeNode _mayaLocator = AstFactory.BuildNullNode();
+        private MSpace.Space space = MSpace.Space.kWorld;
         private bool firstRun = true;
-        private bool _hasBeenDeleted = false;
+        private bool hasBeenDeleted = false;
         private bool m_liveUpdate = false;
         private bool isFromUpdate = false;
         private bool isUpdating = false;
-        private int updateInterval = 300;
-        private string m_updateInterval = "50";
+
         private string m_mSpace = MSpace.Space.kWorld.ToString();
         private Dictionary<string, DMLocator> SelectedItems;
-        private bool differUpdate = false;
+        private List<string> m_SelectedItemNames = new List<string>();
+        private string m_SelectedItemNamesString = "";
+
+        private Dictionary<string, AssociativeNode> dynamoObject = null;
+        private Dictionary<string, AssociativeNode> locatorName = null;
+        private Dictionary<string, AssociativeNode> mayaLocator = null;
+
+        private Func<string, string, CoordinateSystem> dynamoElementFunc = DMLocator.ToDynamoElement;
+       
+
 
         #endregion
 
@@ -59,8 +69,8 @@ namespace DynaMaya.UINodes
             set
             {
                 m_mSpace = value;
-                Enum.TryParse(m_mSpace, out _space);
-                RaisePropertyChanged("NodeMessage");
+                Enum.TryParse(m_mSpace, out space);
+                RaisePropertyChanged("mSpace");
             }
         }
 
@@ -86,17 +96,64 @@ namespace DynaMaya.UINodes
                 RaisePropertyChanged("liveUpdate");
             }
         }
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "SelectedItemNamesString")]
+        public string SelectedItemNamesString
+        {
+            get
+            {
+                return m_SelectedItemNamesString;
+            }
+            set
+            {
+                m_SelectedItemNamesString = value;
+                DeserializeNameList(m_SelectedItemNamesString);
+
+                RaisePropertyChanged("SelectedItemNamesString");
+                OnNodeModified();
+            }
+        }
+
+        private void DeserializeNameList(string nameListString)
+        {
+            var splitNames = nameListString.Split(',');
+            if (splitNames.Length > 0)
+            {
+                SelectedItems = new Dictionary<string, DMLocator>(splitNames.Length);
+
+                foreach (var name in splitNames)
+                {
+                    try
+                    {
+                        var itm = new DMLocator(DMInterop.getDagNode(name), space);
+                        itm.Deleted += MObjOnDeleted;
+                        itm.Changed += MObjOnChanged;
+                        SelectedItems.Add(itm.dagName, itm);
+                    }
+                    catch
+                    {
+                        Warning($"Object {name} does not exist or is not valid");
+                    }
+
+
+
+                }
+            }
+
+        }
+
         /// <summary>
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand SelectBtnCmd { get; set; }
-        [IsVisibleInDynamoLibrary(false)]
+
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand ManualUpdateCmd { get; set; }
 
-
         #endregion
+
         // Use the VMDataBridge to safely retrieve our input values
         #region databridge callback
         /// <summary>
@@ -134,8 +191,6 @@ namespace DynaMaya.UINodes
         }
         #endregion
 
-
-
         #region constructor
 
         /// <summary>
@@ -143,34 +198,35 @@ namespace DynaMaya.UINodes
         /// the input and output ports and specify the argument
         /// lacing.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
         public SelectLocatorNode()
         {
-            // When you create a UI node, you need to do the
-            // work of setting up the ports yourself. To do this,
-            // you can populate the InPortData and the OutPortData
-            // collections with PortData objects describing your ports.
-            //InPortData.Add(new PortData("Space", Resources.DMInPortToolTip));
-
-            // Nodes can have an arbitrary number of inputs and outputs.
-            // If you want more ports, just create more PortData objects.
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("CoordinateSystem", "The locator as a Coordinate System ")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("CoordinateSystem", "The Dynamo Object")));
             OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Locator Name", "The name of the object in Maya")));
-            
-           
+            //OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Mesh", "This is the Maya Locator typology which gives you access to all of the maya properties")));
 
-            // This call is required to ensure that your ports are
-            // properly created.
             RegisterAllPorts();
-
-            // The arugment lacing is the way in which Dynamo handles
-            // inputs of lists. If you don't want your node to
-            // support argument lacing, you can set this to LacingStrategy.Disabled.
             ArgumentLacing = LacingStrategy.Shortest;
+            CanUpdatePeriodically = true;
+            PortDisconnected += Node_PortDisconnected;
             SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
             ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
-            this.CanUpdatePeriodically = true;
 
+        }
+
+        // Starting with Dynamo v2.0 you must add Json constructors for all nodeModel
+        // dervived nodes to support the move from an Xml to Json file format.  Failing to
+        // do so will result in incorrect ports being generated upon serialization/deserialization.
+        // This constructor is called when opening a Json graph.
+        [JsonConstructor]
+        SelectLocatorNode(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
+        {
+
+        }
+
+        // Restore default button/window text and trigger UI update
+        private void Node_PortDisconnected(PortModel obj)
+        {
+            SelectedItems = new Dictionary<string, DMLocator>();
 
         }
 
@@ -189,62 +245,86 @@ namespace DynaMaya.UINodes
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-            
-            Func<string, string, CoordinateSystem> func = DMLocator.ToDynamoElement;
-            List<AssociativeNode> newInputs = null;
-            List<AssociativeNode> newNameInputs = null;
-            List<AssociativeNode> NewRotationInputs = null;
+            this.ClearErrorsAndWarnings();
 
-            if (SelectedItems == null || _hasBeenDeleted)
+
+            if (SelectedItems == null || hasBeenDeleted)
             {
-                SelectedItems = new Dictionary<string, DMLocator>();
+                //SelectedItems = new Dictionary<string, DMLocator>();
                 _locatorLstNode = AstFactory.BuildNullNode();
-                _locatorLstNameNode = AstFactory.BuildNullNode();
-                _locatorLstRotationNode = AstFactory.BuildNullNode();
-
-                _hasBeenDeleted = false;
+                _SelectedNameLstNode = AstFactory.BuildNullNode();
+               // _mayaLocator = AstFactory.BuildNullNode();
+                hasBeenDeleted = false;
+                //return Enumerable.Empty<AssociativeNode>();
             }
             else
             {
                 if (SelectedItems.Count > 0)
                 {
-                    newInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    newNameInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    foreach (var dag in SelectedItems.Values)
+                    //only rebuild the entire list of geom if needed. otherwise this has been created and is built and updated as needed on only the geometry that has changed
+                    if (!isFromUpdate)
                     {
-                        newInputs.Add(AstFactory.BuildFunctionCall(
-                            func,
-                            new List<AssociativeNode>
-                            {
-                                AstFactory.BuildStringNode(dag.DagNode.partialPathName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                            }));
+                        dynamoObject = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        locatorName = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        //mayaLocator = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
 
-                        newNameInputs.Add(AstFactory.BuildStringNode(dag.DagShape.partialPathName));
-                    
+                        foreach (var dag in SelectedItems.Values)
+                        {
+                            buildAstNodes(dag.dagName);
+
+                        }
                     }
 
-                    _locatorLstNode = AstFactory.BuildExprList(newInputs);
-                    _locatorLstNameNode = AstFactory.BuildExprList(newNameInputs);
+
+                    _locatorLstNode = AstFactory.BuildExprList(dynamoObject.Values.ToList());
+                    _SelectedNameLstNode = AstFactory.BuildExprList(locatorName.Values.ToList());
+                    //_mayaLocator = AstFactory.BuildExprList(mayaLocator.Values.ToList());
+
 
                 }
                 else
+                {
                     _locatorLstNode = AstFactory.BuildNullNode();
-
+                }
 
             }
 
-
+            isFromUpdate = false;
 
             return new[]
             {
 
-                AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(0), _locatorLstNode),
-                AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(1), _locatorLstNameNode)
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _locatorLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(1), _SelectedNameLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
 
             };
+        }
+
+        internal void buildAstNodes(string dagName)
+        {
+            locatorName.Add(dagName, AstFactory.BuildStringNode(dagName));
+            /*
+            mayaLocator.Add(dagName, AstFactory.BuildFunctionCall(
+                MayaElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
+                */
+            dynamoObject.Add(dagName, AstFactory.BuildFunctionCall(
+                dynamoElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
         }
 
         internal void registerUpdateEvents()
@@ -271,10 +351,9 @@ namespace DynaMaya.UINodes
             }
         }
 
-
-
         internal void GetNewGeom()
         {
+            // VMDataBridge.DataBridge.Instance.UnregisterCallback(GUID.ToString());
             if (firstRun)
                 firstRun = false;
             else
@@ -289,44 +368,95 @@ namespace DynaMaya.UINodes
 
             }
 
-
             MSelectionList selectionList = new MSelectionList();
-            MGlobal.getActiveSelectionList(selectionList);
+            MGlobal.getActiveSelectionList(selectionList, true);
 
-
-            var DagObjectList = selectionList.DagPaths(MFn.Type.kLocator).ToList();
-            SelectedItems = new Dictionary<string, DMLocator>(DagObjectList.Count);
-
-            foreach (var dag in DagObjectList)
+            if (selectionList.isEmpty)
             {
-                var itm = new DMLocator(dag, _space);
-                itm.Changed += MObjOnChanged;
-                itm.Deleted += MObjOnDeleted;
-                SelectedItems.Add(itm.DagShape.partialPathName, itm);
-
+                SelectedItems = null;
+                OnNodeModified(true);
+                return;
             }
 
+            var TransObjectList = selectionList.DagPaths(MFn.Type.kTransform).ToList();
+            var DagObjectList = selectionList.DagPaths(MFn.Type.kLocator).ToList();
+            SelectedItems = new Dictionary<string, DMLocator>(DagObjectList.Count);
+            m_SelectedItemNames = new List<string>(DagObjectList.Count);
 
+            foreach (var dag in TransObjectList)
+            {
+                if (dag.hasFn(MFn.Type.kLocator))
+                {
+                    var itm = new DMLocator(dag, space);
+                    itm.Renamed += Itm_Renamed;
+                    itm.Deleted += MObjOnDeleted;
+                    SelectedItems.Add(itm.dagName, itm);
+                    m_SelectedItemNames.Add(itm.dagName);
+                    // ct++;
+                }
+            }
+            
+            m_SelectedItemNamesString = ConvertStringListToString(m_SelectedItemNames);
 
             OnNodeModified(true);
+        }
+
+        internal void rebuildItemNameList(bool updateNameListString = true)
+        {
+            m_SelectedItemNames = new List<string>(SelectedItems.Count);
+            foreach (var itm in SelectedItems)
+            {
+                m_SelectedItemNames.Add(itm.Value.dagName);
+            }
+
+            if (updateNameListString)
+            {
+                ConvertStringListToString(m_SelectedItemNames);
+            }
+        }
+
+        internal static string ConvertStringListToString(List<string> stringList)
+        {
+            if (stringList.Count > 0)
+            {
+
+            string listAsString = "";
+            for (int i = 0; i < stringList.Count - 1; i++)
+            {
+                listAsString += stringList[i] + ",";
+            }
+            listAsString += stringList[stringList.Count - 1];
+            return listAsString;
+
+            }
+            MGlobal.displayWarning("selected items are invalid");
+            return "";
         }
 
         internal void MObjOnDeleted(object sender, MFnDagNode dagNode)
         {
 
-
+            isFromUpdate = true;
             if (SelectedItems != null && SelectedItems.Count > 0)
             {
-
+                var dag = (DMLocator)sender;
                 if (SelectedItems.Count == 1)
-                    _hasBeenDeleted = true;
-
-
-                var uuidstr = dagNode.uuid().asString();
-                if (SelectedItems.ContainsKey(uuidstr))
                 {
-                    SelectedItems[uuidstr].Dispose();
-                    SelectedItems.Remove(uuidstr);
+                    hasBeenDeleted = true;
+                    SelectedItems = null;
+                    OnNodeModified(true);
+                    return;
+                }
+
+
+                if (SelectedItems.ContainsKey(dag.dagName))
+                {
+                    SelectedItems.Remove(dag.dagName);
+                    dynamoObject.Remove(dag.dagName);
+                    mayaLocator.Remove(dag.dagName);
+                    locatorName.Remove(dag.dagName);
+
+
                 }
 
 
@@ -336,10 +466,71 @@ namespace DynaMaya.UINodes
 
         internal void MObjOnChanged(object sender, MFnDagNode dagNode)
         {
-            if (!differUpdate)
-                MarkNodeAsModified(true);
-            //OnNodeModified(true);
+            if (!isUpdating)
+            {
+                isUpdating = true;
 
+                var dag = new DMLocator(dagNode.dagPath, space);
+
+                //  if (liveUpdate)
+                //  {
+                isFromUpdate = true;
+
+                if (SelectedItems.ContainsKey(dag.dagName))
+                {
+                    SelectedItems[dag.dagName] = dag;
+
+
+                    dynamoObject[dag.dagName] = AstFactory.BuildFunctionCall(
+                                dynamoElementFunc,
+                                new List<AssociativeNode>
+                                {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                                });
+                    /*
+                    mayaLocator[dag.dagName] = AstFactory.BuildFunctionCall(
+                        MayaElementFunc,
+                        new List<AssociativeNode>
+                        {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                        });
+                    */
+                }
+
+                OnNodeModified(true);
+            
+            }
+
+
+        }
+
+        private void Itm_Renamed(object sender, MFnDagNode dagNode)
+        {
+            //ToDo: get the rename system working
+            var dag = (DMLocator)sender;
+            if (SelectedItems.ContainsKey(dag.dagName))
+            {
+                string newName = dagNode.partialPathName;
+                string oldName = dag.dagName;
+
+                isFromUpdate = true;
+                SelectedItems.Remove(oldName);
+                locatorName.Remove(oldName);
+                mayaLocator.Remove(oldName);
+
+                var DMLocator = new DMLocator(dagNode.dagPath, m_mSpace);
+                SelectedItems.Add(newName, DMLocator);
+
+                buildAstNodes(newName);
+
+                rebuildItemNameList();
+
+                OnNodeModified(true);
+
+            }
+            dag.Dispose();
         }
 
         #endregion
@@ -352,15 +543,13 @@ namespace DynaMaya.UINodes
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal  void SelectBtnClicked(object obj)
+        public void SelectBtnClicked(object obj)
         {
             GetNewGeom();
-           
-
         }
-      
+
         [IsVisibleInDynamoLibrary(false)]
-        internal void ManualUpdateBtnClicked(object obj)
+        public void ManualUpdateBtnClicked(object obj)
         {
 
             OnNodeModified(true);
@@ -368,6 +557,7 @@ namespace DynaMaya.UINodes
         }
 
         #endregion
+
         [IsVisibleInDynamoLibrary(false)]
         public override void Dispose()
         {
@@ -386,7 +576,7 @@ namespace DynaMaya.UINodes
     ///     View customizer for CustomNodeModel Node Model.
     /// </summary>
     [IsVisibleInDynamoLibrary(false)]
-    public class PointNodeViewCustomization : INodeViewCustomization<SelectLocatorNode>
+    public class LocatorNodeViewCustomization : INodeViewCustomization<SelectLocatorNode>
     {
         /// <summary>
         /// At run-time, this method is called during the node 
@@ -419,10 +609,7 @@ namespace DynaMaya.UINodes
         /// Here you can do any cleanup you require if you've assigned callbacks for particular 
         /// UI events on your node.
         /// </summary>
-        public void Dispose()
-        {
-           
-        }
+        public void Dispose() { }
     }
 
 }
