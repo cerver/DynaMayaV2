@@ -398,6 +398,10 @@ namespace DynaMaya.UINodes
                     m_SelectedItemNames.Add(itm.dagName);
                    // ct++;
                 }
+                else
+                {
+                    MGlobal.displayWarning($"Selected item is not a kMesh, it is a {dag.apiType}");
+                }
             }
 
             m_SelectedItemNamesString = ConvertStringListToString(m_SelectedItemNames);
@@ -469,8 +473,7 @@ namespace DynaMaya.UINodes
 
                 var dag = new DMMesh(dagNode.dagPath, space);
 
-              //  if (liveUpdate)
-              //  {
+     
                     isFromUpdate = true;
 
                     if (SelectedItems.ContainsKey(dag.dagName))
@@ -497,11 +500,7 @@ namespace DynaMaya.UINodes
                     }
 
                     OnNodeModified(true);
-                //}
-               // else
-               // {
-                  //  MarkNodeAsModified(true);
-              //  }
+
             }
                 
 

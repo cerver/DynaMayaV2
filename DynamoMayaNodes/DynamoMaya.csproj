@@ -169,8 +169,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetPath)" "C:\Users\cerve\AppData\Roaming\Dynamo\Dynamo Core\2.1\packages\DynaMaya\bin"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -181,8 +181,12 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>
+  </Target>  -->
   <Target Name="AfterBuild">
+    <PropertyGroup>
+      <dynaMayaPackagePath>$(HOMEDRIVE)$(HOMEPATH)\AppData\Roaming\Dynamo\Dynamo Core\2.1\packages\DynaMaya\bin</dynaMayaPackagePath>
+    </PropertyGroup>
+    <Copy SourceFiles="$(TargetDir)$(TargetName).dll" DestinationFolder="$(dynaMayaPackagePath)" ContinueOnError="true" ></Copy>
+    <Message Text="UserDir : $(dynaMayaPackagePath)" Importance="High" />
   </Target>
-  -->
 </Project>

@@ -35,17 +35,15 @@ namespace DynamoMaya
         static MForeignWindowWrapper mayaWnd;    
         static string wpfTitle;
         static string hostTitle;
+        
+   
 
         private DynamoViewModel viewModel = null;
 
         // internal RemoteConnection remoteCon;
         public override void doIt(MArgList argl)
         {
-            //ToDo: fix embeded wpf dockble window
-            MGlobal.displayInfo("DynaMaya is starting........");
-
-       
-
+   
             if (!String.IsNullOrEmpty(wpfTitle))
             {
                 // Check the existence of the window
@@ -86,8 +84,7 @@ namespace DynamoMaya
             IntPtr mWindowHandle = new WindowInteropHelper(view).Handle;
             view.Closed += View_Closed;
 
-            
-
+ 
             int width = (int)view.Width;
             int height = (int)view.Height;
 
@@ -95,7 +92,7 @@ namespace DynamoMaya
             wpfTitle = title + " Internal";
             hostTitle = title;
 
-            view.Title = wpfTitle;
+            //view.Title = wpfTitle;
            
             
             mayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
@@ -105,7 +102,7 @@ namespace DynamoMaya
             if (flagIdx == MArgList.kInvalidArgIndex)
             {
                 // Create a workspace-control to wrap the native window wrapper, and use it as the parent of this WPF window
-                CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
+                //CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
             }
 
            
@@ -123,9 +120,8 @@ namespace DynamoMaya
                 MGlobal.displayWarning("Could not shut down");
             }
             MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{hostTitle}""`);");
-            view.Dispose();
-            //dv.Close();
-            //dv = null;
+            view.Close();
+       
 
         }
 
@@ -191,8 +187,11 @@ namespace DynamoMaya
 
         private static void CreateWorkspaceControl(string content, string hostName, int width, int height, bool retain = true, bool floating = true)
         {
-            String command = $@"
+            string closeCommand =  $"workspaceControl -cl {hostName};";
+
+            string command = $@"
                     workspaceControl 
+                        -cp true
                         -retain {retain.ToString().ToLower()} 
                         -floating {floating.ToString().ToLower()}
                         -uiScript ""if (!`control -q -ex \""{content}\""`) {commandName} -{flagName}; control -e -parent \""{hostName}\"" \""{content}\"";""

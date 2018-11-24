@@ -660,3 +660,4 @@ D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\bin\Debug\zh-TW\ProtoI
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynamoMayaPlugIn.csproj.CoreCompileInputs.cache
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynaMaya.nll.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynaMaya.nll.pdb
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaPlugin\obj\Debug\DynamoMayaPlugIn.csprojResolveAssemblyReference.cache

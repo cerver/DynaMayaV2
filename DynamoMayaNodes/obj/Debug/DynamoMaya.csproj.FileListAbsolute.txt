@@ -242,6 +242,8 @@ D:\GoogleDrive\Code\DynamoMaya_v001\DynaMaya\DynamoMayaNodes\obj\Debug\DynamoMay
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DynaMayaNodes.dll.config
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DynaMayaNodes.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DynaMayaNodes.pdb
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\CommonServiceLocator.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DesignScriptBuiltin.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\dotMemory.Unit.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DSIronPython.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DynamoApplications.dll
@@ -257,6 +259,7 @@ D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Pra
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.Mvvm.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.PubSubEvents.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.dll
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Newtonsoft.Json.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\nunit.framework.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\ProtoCore.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\ProtoGeometry.dll
@@ -264,8 +267,6 @@ D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\VMDataBridge.
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Scripting.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\IronPython.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\NDesk.Options.dll
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Newtonsoft.Json.dll
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\DesignScriptBuiltin.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\LibG.Interface.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Dynamic.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Scripting.Metadata.dll
@@ -273,6 +274,8 @@ D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\dotMemory.Uni
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.Composition.xml
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.Mvvm.xml
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Microsoft.Practices.Prism.SharedInterfaces.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Newtonsoft.Json.xml
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\nunit.framework.pdb
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\nunit.framework.xml
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\cs-CZ\DynamoCoreWpf.resources.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\de-DE\DynamoCoreWpf.resources.dll
@@ -300,12 +303,9 @@ D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\pt-BR\ProtoGe
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\ru-RU\ProtoGeometry.resources.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\zh-CN\ProtoGeometry.resources.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\zh-TW\ProtoGeometry.resources.dll
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynamoMaya.csprojResolveAssemblyReference.cache
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynaMaya.Nodes.Properties.Resources.resources
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynamoMaya.csproj.GenerateResource.Cache
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynamoMaya.csproj.CoreCompileInputs.cache
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynaMayaNodes.dll
 D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynaMayaNodes.pdb
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\CommonServiceLocator.dll
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\Newtonsoft.Json.xml
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\bin\Debug\nunit.framework.pdb
+D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaNodes\obj\Debug\DynamoMaya.csprojResolveAssemblyReference.cache

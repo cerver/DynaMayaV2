@@ -198,6 +198,8 @@ namespace DynaMaya.Util
                 DMSurface.ToMaya((Surface)geom, name, groupName);
             else if(geom is CoordinateSystem)
                 DMLocator.ToMaya((CoordinateSystem)geom, name);
+            else if (geom is Point)
+                DMLocator.ToMaya((Point)geom, name);
             else if (geom is Mesh)
             {
                 DMMesh dmMesh = new DMMesh();
@@ -208,10 +210,6 @@ namespace DynaMaya.Util
                 DMMesh dmMesh = new DMMesh();
                 dmMesh.ToMayaFromTSplinesSurf((TSplineSurface) geom, name);
             }
-            else if(geom is CoordinateSystem)
-                DMLocator.ToMaya((CoordinateSystem)geom, name);
-            else if(geom is Point)
-                DMLocator.ToMaya((Point)geom, name);
             else
             {
                 sucess = false;
@@ -234,8 +232,7 @@ namespace DynaMaya.Util
             try
             {
                 MGlobal.executeCommand(MelCommand, mcr);
-                //   MGlobal.executeCommand(MelCommand, stringResults);
-
+              
             }
             catch (MemberAccessException e)
             {

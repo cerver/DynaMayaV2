@@ -1,62 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Xml;
+using System.Xml.Serialization;
 using Autodesk.DesignScript.Geometry;
-using Autodesk.DesignScript.Runtime;
 using Autodesk.Maya.OpenMaya;
 using Dynamo.Controls;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
-using Dynamo.Models;
-using Dynamo.Nodes;
 using Dynamo.UI.Commands;
-using Dynamo.Utilities;
 using Dynamo.Wpf;
-
 using DynaMaya.Geometry;
 using DynaMaya.NodeUI;
+using Autodesk.DesignScript.Runtime;
 using ProtoCore.AST.AssociativeAST;
-using DynaMaya.Nodes.Properties;
 using DynaMaya.Util;
-//using Microsoft.Practices.Prism.Commands;
-
+using Newtonsoft.Json;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace DynaMaya.UINodes
 {
 
-    [NodeName("Get Selected Surface")]
+    [NodeName("Get Selected Mesh")]
     [NodeCategory("DynaMaya.Interop.Select")]
-
-    // The description will display in the tooltip
-    // and in the help window for the node.
-   // [NodeDescription("CustomNodeModelDescription",typeof(SamplesLibraryUI.Properties.Resources))]
-
-    // Add the IsDesignScriptCompatible attribute to ensure
-    // that it gets loaded in Dynamo.
+    [NodeDescription("Select Maya Mesh")]
+    [OutPortTypes("Mesh", "string", "MayaMesh")]
     [IsDesignScriptCompatible]
-    public class SelectSurfacehNode : NodeModel
+    public class SelectSurfaceNode : NodeModel
     {
         #region private members
-    
-        private AssociativeNode _AssocNodeListObject = AstFactory.BuildNullNode();
-        private AssociativeNode _AssocNodeListName = AstFactory.BuildNullNode();
-        private AssociativeNode _AssocNodeListMObject = AstFactory.BuildNullNode();
+
+        private AssociativeNode _meshLstNode = AstFactory.BuildNullNode();
+        private AssociativeNode _SelectedNameLstNode = AstFactory.BuildNullNode();
+        private AssociativeNode _mayaMesh = AstFactory.BuildNullNode();
         private MSpace.Space space = MSpace.Space.kWorld;
         private bool firstRun = true;
-        private bool _hasBeenDeleted = false;
-        private bool differUpdate = false;
-        private int updateInterval = 300;
-        private string m_updateInterval = "50";
+        private bool hasBeenDeleted = false;
+        private bool m_liveUpdate = false;
+        private bool isFromUpdate = false;
+        private bool isUpdating = false;
+
         private string m_mSpace = MSpace.Space.kWorld.ToString();
         private Dictionary<string, DMSurface> SelectedItems;
-    
-            #endregion
+        private List<string> m_SelectedItemNames = new List<string>();
+        private string m_SelectedItemNamesString = "";
+
+        private Dictionary<string, AssociativeNode> dynamoSurface = null;
+        private Dictionary<string, AssociativeNode> surfaceName = null;
+        private Dictionary<string, AssociativeNode> mayaSurface = null;
+
+        private Func<string, string, Surface> dynamoElementFunc = DMSurface.ToDynamoElement;
+        private Func<string, string, MFnNurbsSurface> MayaElementFunc = DMSurface.GetMayaObject;
+
+
+        #endregion
 
         #region properties
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "mSpace")]
         public string mSpace
         {
             get
@@ -67,19 +70,125 @@ namespace DynaMaya.UINodes
             {
                 m_mSpace = value;
                 Enum.TryParse(m_mSpace, out space);
-                RaisePropertyChanged("NodeMessage");
+                RaisePropertyChanged("mSpace");
             }
         }
+
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "liveUpdate")]
+        public bool liveUpdate
+        {
+            get
+            {
+                return m_liveUpdate;
+            }
+            set
+            {
+                m_liveUpdate = value;
+                if (m_liveUpdate)
+                {
+                    registerUpdateEvents();
+                }
+                else
+                {
+                    unRegisterUpdateEvents();
+                }
+                RaisePropertyChanged("liveUpdate");
+            }
+        }
+        [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "SelectedItemNamesString")]
+        public string SelectedItemNamesString
+        {
+            get
+            {
+                return m_SelectedItemNamesString;
+            }
+            set
+            {
+                m_SelectedItemNamesString = value;
+                DeserializeNameList(m_SelectedItemNamesString);
+
+                RaisePropertyChanged("SelectedItemNamesString");
+                OnNodeModified();
+            }
+        }
+
+        private void DeserializeNameList(string nameListString)
+        {
+            var splitNames = nameListString.Split(',');
+            if (splitNames.Length > 0)
+            {
+                SelectedItems = new Dictionary<string, DMSurface>(splitNames.Length);
+
+                foreach (var name in splitNames)
+                {
+                    try
+                    {
+                        var itm = new DMSurface(DMInterop.getDagNode(name), space);
+                        itm.Deleted += MObjOnDeleted;
+                        itm.Changed += MObjOnChanged;
+                        SelectedItems.Add(itm.dagName, itm);
+                    }
+                    catch
+                    {
+                        Warning($"Object {name} does not exist or is not valid");
+                    }
+
+
+
+                }
+            }
+
+        }
+
         /// <summary>
         /// DelegateCommand objects allow you to bind
         /// UI interaction to methods on your data context.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand SelectBtnCmd { get; set; }
 
-        [IsVisibleInDynamoLibrary(false)]
+        [IsVisibleInDynamoLibrary(false), JsonIgnore]
         public DelegateCommand ManualUpdateCmd { get; set; }
 
+        #endregion
+
+        // Use the VMDataBridge to safely retrieve our input values
+        #region databridge callback
+        /// <summary>
+        /// Register the data bridge callback.
+        /// </summary>
+        protected override void OnBuilt()
+        {
+            base.OnBuilt();
+            VMDataBridge.DataBridge.Instance.RegisterCallback(GUID.ToString(), DataBridgeCallback);
+            isUpdating = false;
+        }
+
+
+
+        /// <summary>
+        /// Callback method for DataBridge mechanism.
+        /// This callback only gets called when 
+        ///     - The AST is executed
+        ///     - After the BuildOutputAST function is executed 
+        ///     - The AST is fully built
+        /// </summary>
+        /// <param name="data">The data passed through the data bridge.</param>
+        private void DataBridgeCallback(object data)
+        {
+            try
+            {
+                var dataObj = data;
+                //JsonConvert.SerializeObject(SelectedItems);
+
+            }
+            catch
+            {
+                Warning("DataBridge callback failed");
+            }
+        }
         #endregion
 
         #region constructor
@@ -89,35 +198,35 @@ namespace DynaMaya.UINodes
         /// the input and output ports and specify the argument
         /// lacing.
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
-        public SelectSurfacehNode()
+        public SelectSurfaceNode()
         {
-            // When you create a UI node, you need to do the
-            // work of setting up the ports yourself. To do this,
-            // you can populate the InPortData and the OutPortData
-            // collections with PortData objects describing your ports.
-            //InPortData.Add(new PortData("Space", Resources.DMInPortToolTip));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh", "The Dynamo Mesh (Will only show if the mesh is quad or triangle)")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh Name", "The name of the object in Maya")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Mesh", "This is the Maya Mesh typology which gives you access to all of the mesh including NGone mesh data")));
 
-            // Nodes can have an arbitrary number of inputs and outputs.
-            // If you want more ports, just create more PortData objects.
-
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Surface", "The Maya Surface as a Dynamo Surface ")));
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Surface Name", "The name of the object in Maya")));
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Surface", "This is the Maya Surface typology which gives you access to all of the Maya data")));
-
-         
-
-            // This call is required to ensure that your ports are
-            // properly created.
             RegisterAllPorts();
-
-            // The arugment lacing is the way in which Dynamo handles
-            // inputs of lists. If you don't want your node to
-            // support argument lacing, you can set this to LacingStrategy.Disabled.
             ArgumentLacing = LacingStrategy.Shortest;
+            CanUpdatePeriodically = true;
+            PortDisconnected += Node_PortDisconnected;
             SelectBtnCmd = new DelegateCommand(SelectBtnClicked, isOk);
             ManualUpdateCmd = new DelegateCommand(ManualUpdateBtnClicked, isOk);
-            this.CanUpdatePeriodically = true;
+
+        }
+
+        // Starting with Dynamo v2.0 you must add Json constructors for all nodeModel
+        // dervived nodes to support the move from an Xml to Json file format.  Failing to
+        // do so will result in incorrect ports being generated upon serialization/deserialization.
+        // This constructor is called when opening a Json graph.
+        [JsonConstructor]
+        SelectSurfaceNode(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
+        {
+
+        }
+
+        // Restore default button/window text and trigger UI update
+        private void Node_PortDisconnected(PortModel obj)
+        {
+            SelectedItems = new Dictionary<string, DMSurface>();
 
         }
 
@@ -136,178 +245,120 @@ namespace DynaMaya.UINodes
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
+            this.ClearErrorsAndWarnings();
 
-            Func<string, string, Surface> func = DMSurface.ToDynamoElement;
-            Func<string, string, MFnNurbsSurface> MayaElementFunc = DMSurface.GetMayaObject;
 
-            List<AssociativeNode> newInputs = null;
-            List<AssociativeNode> newNameInputs = null;
-            List<AssociativeNode> newMObjectInputs = null;
-
-            if (SelectedItems == null || _hasBeenDeleted)
+            if (SelectedItems == null || hasBeenDeleted)
             {
-                SelectedItems = new Dictionary<string, DMSurface>();
-                _AssocNodeListObject = AstFactory.BuildNullNode();
-                _AssocNodeListName = AstFactory.BuildNullNode();
-                _AssocNodeListMObject = AstFactory.BuildNullNode();
-                _hasBeenDeleted = false;
+                //SelectedItems = new Dictionary<string, DMSurface>();
+                _meshLstNode = AstFactory.BuildNullNode();
+                _SelectedNameLstNode = AstFactory.BuildNullNode();
+                _mayaMesh = AstFactory.BuildNullNode();
+                hasBeenDeleted = false;
+                //return Enumerable.Empty<AssociativeNode>();
             }
             else
             {
                 if (SelectedItems.Count > 0)
                 {
-
-                    newInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    newNameInputs = new List<AssociativeNode>(SelectedItems.Count);
-                    newMObjectInputs = new List<AssociativeNode>(SelectedItems.Count);
-
-                    foreach (var dag in SelectedItems.Values)
+                    //only rebuild the entire list of geom if needed. otherwise this has been created and is built and updated as needed on only the geometry that has changed
+                    if (!isFromUpdate)
                     {
-                        newInputs.Add(AstFactory.BuildFunctionCall(
-                            func,
-                            new List<AssociativeNode>
-                            {
-                                AstFactory.BuildStringNode(dag.DagNode.partialPathName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                            }));
+                        dynamoSurface = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        surfaceName = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
+                        mayaSurface = new Dictionary<string, AssociativeNode>(SelectedItems.Count);
 
-                        newMObjectInputs.Add(AstFactory.BuildFunctionCall(
-                           MayaElementFunc,
-                           new List<AssociativeNode>
-                           {
-                                AstFactory.BuildStringNode(dag.DagNode.partialPathName),
-                                AstFactory.BuildStringNode(m_mSpace)
-                           }));
+                        foreach (var dag in SelectedItems.Values)
+                        {
+                            buildAstNodes(dag.dagName);
 
-                        newNameInputs.Add(AstFactory.BuildStringNode(dag.DagShape.partialPathName));
+                        }
                     }
 
-                    _AssocNodeListObject = AstFactory.BuildExprList(newInputs);
-                    _AssocNodeListName = AstFactory.BuildExprList(newNameInputs);
-                    _AssocNodeListMObject = AstFactory.BuildExprList(newMObjectInputs);
+
+                    _meshLstNode = AstFactory.BuildExprList(dynamoSurface.Values.ToList());
+                    _SelectedNameLstNode = AstFactory.BuildExprList(surfaceName.Values.ToList());
+                    _mayaMesh = AstFactory.BuildExprList(mayaSurface.Values.ToList());
+
 
                 }
                 else
-                    _AssocNodeListObject = AstFactory.BuildNullNode();
-
+                {
+                    _meshLstNode = AstFactory.BuildNullNode();
+                }
 
             }
 
-          
+            isFromUpdate = false;
 
             return new[]
             {
 
-                AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(0), _AssocNodeListObject),
-                    AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(1), _AssocNodeListName),
-                    AstFactory.BuildAssignment(
-                    GetAstIdentifierForOutputIndex(2), _AssocNodeListMObject)
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _meshLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(1), _SelectedNameLstNode),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
+
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(2), _mayaMesh),
+                    AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
+                        VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes)))
+
 
             };
         }
 
-        protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
+        internal void buildAstNodes(string dagName)
         {
-            base.SerializeCore(nodeElement, context);
-            if (this.SelectedItems != null)
-            {
-                XmlElement nameElement = nodeElement.OwnerDocument.CreateElement("SurfaceItemNames");
+            surfaceName.Add(dagName, AstFactory.BuildStringNode(dagName));
 
-                string nameList = "";
-                foreach (var key in SelectedItems.Keys)
+            mayaSurface.Add(dagName, AstFactory.BuildFunctionCall(
+                MayaElementFunc,
+                new List<AssociativeNode>
                 {
-                    nameList += key + ",";
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
 
-                }
-                nameElement.SetAttribute("value", nameList);
-                nodeElement.AppendChild(nameElement);
-
-                XmlElement spaceElement = nodeElement.OwnerDocument.CreateElement("SurfaceMspace");
-                spaceElement.SetAttribute("value", mSpace);
-                nodeElement.AppendChild(spaceElement);
-            }
-
+            dynamoSurface.Add(dagName, AstFactory.BuildFunctionCall(
+                dynamoElementFunc,
+                new List<AssociativeNode>
+                {
+                    AstFactory.BuildStringNode(dagName),
+                    AstFactory.BuildStringNode(m_mSpace)
+                }));
         }
 
-        protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
+        internal void registerUpdateEvents()
         {
-            base.DeserializeCore(nodeElement, context);
-
-            // int index = -1;
-            List<string> names = new List<string>();
-
-
-            foreach (XmlNode subNode in nodeElement.ChildNodes)
+            if (SelectedItems != null)
             {
-                string nameList = null;
-
-                if (subNode.Name.Equals("SurfaceItemNames"))
+                foreach (KeyValuePair<string, DMSurface> itm in SelectedItems)
                 {
-
-                    try
-                    {
-
-                        nameList = subNode.Attributes[0].Value;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-
-                    if (nameList != null)
-                    {
-                        names.AddRange(nameList.Split(','));
-                        names.RemoveAt(names.Count - 1);
-                    }
-
-
-
+                    itm.Value.AddEvents(itm.Value.DagShape);
+                    itm.Value.Changed += MObjOnChanged;
                 }
-                else if (subNode.Name.Equals("SurfaceMspace"))
-                {
-                    try
-                    {
-                        mSpace = subNode.Attributes[0].Value;
-
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-
-            }
-
-            if (names.Count > 0)
-            {
-                AddItemsFromDeserialize(names);
             }
         }
 
-        internal void AddItemsFromDeserialize(List<string> itms)
+        internal void unRegisterUpdateEvents()
         {
-            SelectedItems = new Dictionary<string, DMSurface>(itms.Count);
-
-            for (int i = 0; i < itms.Count; i++)
+            if (SelectedItems != null)
             {
-                try
+                foreach (KeyValuePair<string, DMSurface> itm in SelectedItems)
                 {
-                    var tempCrv = new DMSurface(DMInterop.getDagNode(itms[i]), space);
-                    SelectedItems.Add(itms[i], tempCrv);
-                    tempCrv.Changed += MObjOnChanged;
-                    tempCrv.Deleted += MObjOnDeleted;
-                }
-                catch (Exception)
-                {
-                    MGlobal.displayWarning(string.Format("the object {0} was not found and was removed from the selection list", itms[i]));
+                    itm.Value.Changed -= MObjOnChanged;
+                    itm.Value.RemoveEvents(itm.Value.DagShape);
                 }
             }
-
         }
+
         internal void GetNewGeom()
         {
+            // VMDataBridge.DataBridge.Instance.UnregisterCallback(GUID.ToString());
             if (firstRun)
                 firstRun = false;
             else
@@ -319,47 +370,92 @@ namespace DynaMaya.UINodes
                         itm.Dispose();
                     }
                 }
-                    
-            }
 
+            }
 
             MSelectionList selectionList = new MSelectionList();
-            MGlobal.getActiveSelectionList(selectionList);
+            MGlobal.getActiveSelectionList(selectionList, true);
 
-            
-            var DagObjectList = selectionList.DagPaths(MFn.Type.kNurbsSurface).ToList();
-            SelectedItems = new Dictionary<string, DMSurface>(DagObjectList.Count);
-
-            foreach (var dag in DagObjectList)
+            if (selectionList.isEmpty)
             {
-                var itm = new DMSurface(dag, space);
-                itm.Changed += MObjOnChanged;
-                itm.Deleted += MObjOnDeleted;
-                SelectedItems.Add(itm.DagShape.partialPathName, itm);
-
+                SelectedItems = null;
+                OnNodeModified(true);
+                isFromUpdate = false;
+                return;
             }
 
-            if(firstRun)firstRun = false;
+            var TransObjectList = selectionList.DagPaths(MFn.Type.kTransform).ToList();
+            var DagObjectList = selectionList.DagPaths(MFn.Type.kMesh).ToList();
+            SelectedItems = new Dictionary<string, DMSurface>(DagObjectList.Count);
+            m_SelectedItemNames = new List<string>(DagObjectList.Count);
+
+            foreach (var dag in TransObjectList)
+            {
+                if (dag.hasFn(MFn.Type.kMesh))
+                {
+                    var itm = new DMSurface(dag, space);
+                    itm.Renamed += Itm_Renamed;
+                    itm.Deleted += MObjOnDeleted;
+                    SelectedItems.Add(itm.dagName, itm);
+                    m_SelectedItemNames.Add(itm.dagName);
+                    // ct++;
+                }
+            }
+
+            m_SelectedItemNamesString = ConvertStringListToString(m_SelectedItemNames);
 
             OnNodeModified(true);
+        }
+
+        internal void rebuildItemNameList(bool updateNameListString = true)
+        {
+            m_SelectedItemNames = new List<string>(SelectedItems.Count);
+            foreach (var itm in SelectedItems)
+            {
+                m_SelectedItemNames.Add(itm.Value.dagName);
+            }
+
+            if (updateNameListString)
+            {
+                ConvertStringListToString(m_SelectedItemNames);
+            }
+        }
+
+        internal static string ConvertStringListToString(List<string> stringList)
+        {
+            string listAsString = "";
+            for (int i = 0; i < stringList.Count - 1; i++)
+            {
+                listAsString += stringList[i] + ",";
+            }
+            listAsString += stringList[stringList.Count - 1];
+            return listAsString;
         }
 
         internal void MObjOnDeleted(object sender, MFnDagNode dagNode)
         {
 
-
+            isFromUpdate = true;
             if (SelectedItems != null && SelectedItems.Count > 0)
             {
-
+                var dag = (DMSurface)sender;
                 if (SelectedItems.Count == 1)
-                    _hasBeenDeleted = true;
-
-
-                var uuidstr = dagNode.uuid().asString();
-                if (SelectedItems.ContainsKey(uuidstr))
                 {
-                    SelectedItems[uuidstr].Dispose();
-                    SelectedItems.Remove(uuidstr);
+                    hasBeenDeleted = true;
+                    SelectedItems = null;
+                    OnNodeModified(true);
+                    return;
+                }
+
+
+                if (SelectedItems.ContainsKey(dag.dagName))
+                {
+                    SelectedItems.Remove(dag.dagName);
+                    dynamoSurface.Remove(dag.dagName);
+                    mayaSurface.Remove(dag.dagName);
+                    surfaceName.Remove(dag.dagName);
+
+
                 }
 
 
@@ -369,10 +465,75 @@ namespace DynaMaya.UINodes
 
         internal void MObjOnChanged(object sender, MFnDagNode dagNode)
         {
-            if (!differUpdate)
-                MarkNodeAsModified(true);
-            //OnNodeModified(true);
+            if (!isUpdating)
+            {
+                isUpdating = true;
 
+                var dag = new DMSurface(dagNode.dagPath, space);
+
+                //  if (liveUpdate)
+                //  {
+                isFromUpdate = true;
+
+                if (SelectedItems.ContainsKey(dag.dagName))
+                {
+                    SelectedItems[dag.dagName] = dag;
+
+
+                    dynamoSurface[dag.dagName] = AstFactory.BuildFunctionCall(
+                                dynamoElementFunc,
+                                new List<AssociativeNode>
+                                {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                                });
+
+                    mayaSurface[dag.dagName] = AstFactory.BuildFunctionCall(
+                        MayaElementFunc,
+                        new List<AssociativeNode>
+                        {
+                                AstFactory.BuildStringNode(dag.dagName),
+                                AstFactory.BuildStringNode(m_mSpace)
+                        });
+
+                }
+
+                OnNodeModified(true);
+                //}
+                // else
+                // {
+                //  MarkNodeAsModified(true);
+                //  }
+            }
+
+
+        }
+
+        private void Itm_Renamed(object sender, MFnDagNode dagNode)
+        {
+            //ToDo: get the rename system working
+            var dag = (DMSurface)sender;
+            if (SelectedItems.ContainsKey(dag.dagName))
+            {
+                string newName = dagNode.partialPathName;
+                string oldName = dag.dagName;
+
+                isFromUpdate = true;
+                SelectedItems.Remove(oldName);
+                surfaceName.Remove(oldName);
+                mayaSurface.Remove(oldName);
+
+                var DMSurface = new DMSurface(dagNode.dagPath, m_mSpace);
+                SelectedItems.Add(newName, DMSurface);
+
+                buildAstNodes(newName);
+
+                rebuildItemNameList();
+
+                OnNodeModified(true);
+
+            }
+            dag.Dispose();
         }
 
         #endregion
@@ -385,33 +546,32 @@ namespace DynaMaya.UINodes
         }
 
         [IsVisibleInDynamoLibrary(false)]
-        internal  void SelectBtnClicked(object obj)
+        public void SelectBtnClicked(object obj)
         {
             GetNewGeom();
-        
         }
 
-   
         [IsVisibleInDynamoLibrary(false)]
-        internal void ManualUpdateBtnClicked(object obj)
+        public void ManualUpdateBtnClicked(object obj)
         {
 
             OnNodeModified(true);
 
         }
+
         #endregion
 
         [IsVisibleInDynamoLibrary(false)]
         public override void Dispose()
         {
             base.Dispose();
-            
+
             if (SelectedItems != null)
                 foreach (var itm in SelectedItems.Values)
                 {
                     itm.Dispose();
                 }
-               
+
         }
     }
 
@@ -419,7 +579,7 @@ namespace DynaMaya.UINodes
     ///     View customizer for CustomNodeModel Node Model.
     /// </summary>
     [IsVisibleInDynamoLibrary(false)]
-    public class SurfaceNodeViewCustomization : INodeViewCustomization<SelectSurfacehNode>
+    public class MeshNodeViewCustomization : INodeViewCustomization<SelectSurfaceNode>
     {
         /// <summary>
         /// At run-time, this method is called during the node 
@@ -430,7 +590,7 @@ namespace DynaMaya.UINodes
         /// </summary>
         /// <param name="model">The NodeModel representing the node's core logic.</param>
         /// <param name="nodeView">The NodeView representing the node in the graph.</param>
-        public void CustomizeView(SelectSurfacehNode model, NodeView nodeView)
+        public void CustomizeView(SelectSurfaceNode model, NodeView nodeView)
         {
             // The view variable is a reference to the node's view.
             // In the middle of the node is a grid called the InputGrid.
