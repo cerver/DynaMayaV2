@@ -15,6 +15,8 @@ using Autodesk.Maya.OpenMaya;
 using Dynamo.Interfaces;
 using Dynamo.Models;
 using Dynamo.ViewModels;
+using Dynamo.Controls;
+using Dynamo.ViewModels;
 using DynamoInstallDetective;
 using DynamoShapeManager;
 
@@ -31,12 +33,13 @@ namespace DynamoMaya
 
         internal PathResolver(string userDataFolder, string commonDataFolder)
         {
-            // The executing assembly will be in Revit_20xx folder,
-            // so we have to walk up one level.
+    
             var currentAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var currentAssemblyDir = Path.GetDirectoryName(currentAssemblyPath);
+            
+            var progFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
-            var nodesDirectory = Path.Combine(currentAssemblyDir, "nodes");
+            var nodesDirectory = Path.Combine(progFilePath, @"Dynamo\Dynamo Core\2\nodes");
 
             // Just making sure we are looking at the right level of nesting.
             if (!Directory.Exists(nodesDirectory))
@@ -62,8 +65,6 @@ namespace DynamoMaya
 
 
             additionalNodeDirectories = new List<string> { nodesDirectory };
-
-
             additionalResolutionPaths = new List<string> { currentAssemblyDir };
 
             this.userDataRootFolder = userDataFolder;
@@ -99,18 +100,22 @@ namespace DynamoMaya
 
     internal class DynamayaStartup
     {
-        // private static SettingsMigrationWindow migrationWindow;
+        public DynamoView DynView = null;
+        public DynamoViewModel DynViewModel = null;
+        public DynamoModel DynModel = null;
+        public bool isDynModelNull = true;
+        public bool isDynViewModelNull = true;
 
-
-        public void SetupDynamo(out DynamoViewModel viewModel)
+        //public void SetupDynamo(out DynamoViewModel viewModel)
+        public void SetupDynamo( )
         {
+            SubscribeAssemblyResolvingEvent();
+            UpdateSystemPathForProcess();
 
-            // Temporary fix to pre-load DLLs that were also referenced in Revit folder. 
-            // To do: Need to align with Revit when provided a chance.
             PreloadDynamoCoreDlls();
             var corePath = DynamoCorePath;
             var dynamoMayaExeLoc = Assembly.GetExecutingAssembly().Location;
-            var dynamoMayaRoot = Path.GetDirectoryName(dynamoMayaExeLoc);// ...\Revit_xxxx\ folder
+            var dynamoMayaRoot = Path.GetDirectoryName(dynamoMayaExeLoc);
 
   
             var userDataFolder = Path.Combine(
@@ -122,34 +127,62 @@ namespace DynamoMaya
 
             var geometryFactoryPath = string.Empty;
             var preloaderLocation = string.Empty;
-           
-
-            //PreloadShapeManager(out geometryFactoryPath, out preloaderLocation);
-            //Version loadedLibGVersion = new Version(224, 4, 0);
-
-           
+    
             var loadedLibGVersion = PreloadAsmFromMayaATF();
 
-            var model = DynamoModel.Start(
-                new DynamoModel.DefaultStartConfiguration
+            try
+            {
+                if(isDynModelNull)
                 {
-                    DynamoCorePath = corePath,
-                    DynamoHostPath = dynamoMayaRoot,
-                    GeometryFactoryPath = GetGeometryFactoryPath(corePath,loadedLibGVersion ),
-                    PathResolver = new PathResolver(userDataFolder, commonDataFolder),
-                });
-
-            viewModel = DynamoViewModel.Start(
-                new DynamoViewModel.StartConfiguration
+                    DynModel = DynamoModel.Start(
+                        new DynamoModel.DefaultStartConfiguration
+                        {
+                            DynamoCorePath = corePath,
+                            DynamoHostPath = corePath,
+                            GeometryFactoryPath = GetGeometryFactoryPath(corePath, loadedLibGVersion),
+                            PathResolver = new PathResolver(userDataFolder, commonDataFolder),
+                        });
+                    isDynModelNull = false;
+                }
+                if (isDynViewModelNull)
                 {
-                   // CommandFilePath = commandFilePath,
-                    DynamoModel = model
-                });
+                    DynViewModel = DynamoViewModel.Start(
+                    new DynamoViewModel.StartConfiguration
+                    {
+                    // CommandFilePath = commandFilePath,
+                    DynamoModel = DynModel
+                    });
+                    isDynViewModelNull = false;
+                }
 
+                
+            }
+            catch (Exception e)
+            {
+                MGlobal.displayWarning(e.Message);
+            }
 
+           
         }
 
-       
+        //............................
+        private static readonly string assemblyName = Assembly.GetExecutingAssembly().Location;
+        private static ResourceManager res;
+        private static string dynamopath;
+        public static string DynamoCorePath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(dynamopath))
+                {
+                    dynamopath = GetDynamoCorePath2();
+                }
+                return dynamopath;
+            }
+        }
+
+        //............................
+
         private static void PreloadShapeManager(out string geometryFactoryPath, out string preloaderLocation)
         {
             var exePath = Assembly.GetExecutingAssembly().Location;
@@ -166,13 +199,12 @@ namespace DynamoMaya
             geometryFactoryPath = preloader.GeometryFactoryPath;
             preloaderLocation = preloader.PreloaderLocation;
         }
+
         internal static Version PreloadAsmFromMayaATF()
         {
-
             string asmLocation;
             Version libGversion = findMayaASMVersion(out asmLocation);
             
-
             //var dynCorePath = DynamoRevitApp.DynamoCorePath;
             var libGFolderName = string.Format("libg_{0}_{1}_{2}", libGversion.Major, libGversion.Minor, libGversion.Build);
             var preloaderLocation = Path.Combine(DynamoCorePath, libGFolderName);
@@ -180,12 +212,7 @@ namespace DynamoMaya
             DynamoShapeManager.Utilities.PreloadAsmFromPath(preloaderLocation, asmLocation);
             return libGversion;
         }
-        /// <summary>
-        /// Returns the version of ASM which is installed with Revit at the requested path.
-        /// This version number can be used to load the appropriate libG version.
-        /// </summary>
-        /// <param name="asmLocation">path where asm dlls are located, this is usually the product(Revit) install path</param>
-        /// <returns></returns>
+
         internal static Version findMayaASMVersion(out string asmLocation)
         {
 
@@ -205,10 +232,6 @@ namespace DynamoMaya
             }
 
 
-           //var lookup = new InstalledProductLookUp("Maya", "ASMAHL*.dll");
-            //var product = lookup.GetProductFromInstallPath(asmLocation);
-           // var libGversion = new Version(product.VersionInfo.Item1, product.VersionInfo.Item2, product.VersionInfo.Item3);
-            //return libGversion;
         }
 
         public static string GetGeometryFactoryPath(string corePath, Version version)
@@ -225,13 +248,12 @@ namespace DynamoMaya
                 new object[] { corePath, version }) as string);
         }
 
-
         private static void PreloadDynamoCoreDlls()
         {
           
             var assemblyList = new[]
             {
-                "SDA\\bin\\ICSharpCode.AvalonEdit.dll"
+                "C:\\Program Files\\Dynamo\\Dynamo Core\\2\\DynamoCoreWpf.dll",
             };
 
             foreach (var assembly in assemblyList)
@@ -240,45 +262,6 @@ namespace DynamoMaya
                 if (File.Exists(assemblyPath))
                     Assembly.LoadFrom(assemblyPath);
             }
-        }
-
-        private static readonly string assemblyName = Assembly.GetExecutingAssembly().Location;
-        private static ResourceManager res;
-        private static string dynamopath;
-
-
-        public static string DynamoCorePath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(dynamopath))
-                {
-                    dynamopath = GetDynamoCorePath();
-                }
-                return dynamopath;
-            }
-        }
-        /// <summary>
-        /// Finds the Dynamo Core path by looking into registery or potentially a config file.
-        /// </summary>
-        /// <returns>The root folder path of Dynamo Core.</returns>
-        private static string GetDynamoCorePath()
-        {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            var dynamayaRootDir =Path.GetDirectoryName(assemblyName);
-            var dynamoRoot = GetDynamoRoot(dynamayaRootDir);
-
-            var assembly = Assembly.LoadFrom(Path.Combine(dynamayaRootDir, "DynamoInstallDetective.dll"));
-            var type = assembly.GetType("DynamoInstallDetective.DynamoProducts");
-
-            var methodToInvoke = type.GetMethod("GetDynamoPath", BindingFlags.Public | BindingFlags.Static);
-            if (methodToInvoke == null)
-            {
-                throw new MissingMethodException("Method 'DynamoInstallDetective.DynamoProducts.GetDynamoPath' not found");
-            }
-
-            var methodParams = new object[] { version, dynamoRoot };
-            return methodToInvoke.Invoke(null, methodParams) as string;
         }
 
         private static string GetDynamoRoot(string dynamoCoreRoot)
@@ -298,6 +281,89 @@ namespace DynamoMaya
             return parent != null ? Path.Combine(Path.GetDirectoryName(parent.FullName), @"Dynamo", path) : dynamoCoreRoot;
         }
 
+        private static string GetDynamoCorePath2()
+        {
+            var progFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+            var dynamoCorePath =  Path.Combine(progFilePath, @"Dynamo\Dynamo Core\2\");
+            if(Directory.Exists(dynamoCorePath))
+            {
+                return dynamoCorePath;
+            }else
+            {
+                throw new Exception($"Cannot find Dynamo core directory at --{dynamoCorePath}--");
+            }
+
+        }
+
+        public static void UpdateSystemPathForProcess()
+        {
+            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+            var parentDirectory = Directory.GetParent(assemblyDirectory);
+            var corePath = assemblyDirectory;
+
+
+            var path =
+                    Environment.GetEnvironmentVariable(
+                        "Path",
+                        EnvironmentVariableTarget.Process) + ";" + corePath;
+            Environment.SetEnvironmentVariable("Path", path, EnvironmentVariableTarget.Process);
+        }
+
+        private void SubscribeAssemblyResolvingEvent()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+        }
+
+        private static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            var assemblyPath = string.Empty;
+            var assemblyName = new AssemblyName(args.Name).Name + ".dll";
+
+            try
+            {
+                // var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                var dynCorePath = @"C:\Program Files\Dynamo\Dynamo Core\2";
+                var dynNodePath = @"C:\Program Files\Dynamo\Dynamo Core\2\nodes";
+                var dynLocalUS = @"C:\Program Files\Dynamo\Dynamo Core\2\en-US";
+                var dynUIloc = @"C:\Program Files\Dynamo\Dynamo Core\2\UI\Themes\Modern";
+
+                assemblyPath = Path.Combine(dynCorePath, assemblyName);
+                if (!File.Exists(assemblyPath))
+                {
+                    // If assembly cannot be found, try in nodes
+                    assemblyPath = Path.Combine(dynNodePath, assemblyName);
+                    if (!File.Exists(assemblyPath))
+                    {
+                        assemblyPath = Path.Combine(dynLocalUS, assemblyName);
+                        if (!File.Exists(assemblyPath))
+                        {
+                            assemblyPath = Path.Combine(dynUIloc, assemblyName);
+                        }
+                    }
+                }
+
+                return (File.Exists(assemblyPath) ? Assembly.LoadFrom(assemblyPath) : null);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    $"The location of the assembly, {assemblyPath} could not be resolved for loading.",
+                    ex);
+            }
+        }
+
+        public bool InitializeCoreView()
+        {
+            if (DynViewModel == null) return false;
+            var mwHandle = Process.GetCurrentProcess().MainWindowHandle;
+            var dynamoView = new DynamoView(DynViewModel);
+            new WindowInteropHelper(dynamoView).Owner = mwHandle;
+            
+            DynView =  dynamoView;
+            return true;
+        }
 
     }
             

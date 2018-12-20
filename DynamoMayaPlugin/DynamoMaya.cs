@@ -14,36 +14,34 @@ using Dynamo.ViewModels;
 using DynamoMaya;
 using System.Windows.Media;
 using Autodesk.Maya.OpenMayaRender.MHWRender;
+using Dynamo.Wpf.Interfaces;
 
-//[assembly: MPxCommandClass(typeof (StartDynamaya), "dynaMaya")]
-
-[assembly: MPxCommandClass(typeof (StatDynamaya), "dynaMaya")]
-[assembly: ExtensionPlugin(typeof (StatDynamaya), "CERVER Design Studio and Autodesk Dynamo")]
+[assembly: ExtensionPlugin(typeof(StartDynamayaPlugin), "Any")]
+[assembly: MPxCommandClass(typeof (DynaMayaCommand), "dynaMaya")]
 
 namespace DynamoMaya
 {
 
-    public class StatDynamaya : MPxCommand, IMPxCommand
-    {
+
+    public class DynaMayaCommand : MPxCommand, IMPxCommand
+    { 
         static readonly string flagName = "nodock";
         static readonly string pluginName = "DynaMaya";
         static readonly string commandName = "DynaMaya";
-
-        //private MForeignWindowWrapper mfww;
-        // Objects to keep around
-        static DynamoView view;   
-        static MForeignWindowWrapper mayaWnd;    
+ 
+        //DynamoViewModel viewModel;
+        //DynamoView dynamoViewWnd;
+        private DynamayaStartup dynStartUp; // WPF window  
+        private DynamoView dynWnd;
+        static MForeignWindowWrapper mayaWnd;    // Maya's host window for this WPF window
         static string wpfTitle;
         static string hostTitle;
-        
-   
 
-        private DynamoViewModel viewModel = null;
-
-        // internal RemoteConnection remoteCon;
         public override void doIt(MArgList argl)
         {
-   
+            SubscribeAssemblyResolvingEvent();
+            
+
             if (!String.IsNullOrEmpty(wpfTitle))
             {
                 // Check the existence of the window
@@ -55,92 +53,105 @@ namespace DynamoMaya
                 }
             }
 
-            if (view != null)
+            if (dynStartUp != null)
             {
-                if (view.IsVisible)
+                if (dynStartUp.DynView != null)
                 {
-                    MGlobal.displayWarning("Dynamo is already open");
-                    return;
+                    if (dynStartUp.DynView.IsVisible)
+                    {
+                        MGlobal.displayWarning("Dynamo is already open");
+                        return;
+                    }
+                    else
+                    {
+                        dynWnd.Show();
+                    }
                 }
             }
-
-            RenderOptions.ProcessRenderMode = RenderMode.Default;
-            
-
-            SubscribeAssemblyResolvingEvent();
-            UpdateSystemPathForProcess();
-            
-        
-            DynamayaStartup dmStartup = new DynamayaStartup();
-            dmStartup.SetupDynamo(out viewModel);
-
-            // show the window
-            
-            view = InitializeCoreView(viewModel);
-            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            view.Show();
-
-            // Extract the window handle of the window we want to dock
-            IntPtr mWindowHandle = new WindowInteropHelper(view).Handle;
-            view.Closed += View_Closed;
-
- 
-            int width = (int)view.Width;
-            int height = (int)view.Height;
-
-            var title = view.Title;
-            wpfTitle = title + " Internal";
-            hostTitle = title;
-
-            //view.Title = wpfTitle;
-           
-            
-            mayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
-            
-
-            uint flagIdx = argl.flagIndex(flagName);
-            if (flagIdx == MArgList.kInvalidArgIndex)
+            else
             {
-                // Create a workspace-control to wrap the native window wrapper, and use it as the parent of this WPF window
-                //CreateWorkspaceControl(wpfTitle, hostTitle, width, height);
+                newDmStartup();
+                dynWnd = dynStartUp.DynView;
+                // Create the window to dock
+                dynWnd.Show();
+                // Extract the window handle of the window we want to dock
+                IntPtr mWindowHandle = new System.Windows.Interop.WindowInteropHelper(dynWnd).Handle;
+
+                int width = (int)dynWnd.Width;
+                int height = (int)dynWnd.Height;
+
+                var title = dynWnd.Title;
+                wpfTitle = title + " Internal";
+                hostTitle = title;
+
+                dynWnd.Title = wpfTitle;
+
+                mayaWnd = new MForeignWindowWrapper(mWindowHandle, true);
+
+              
+                uint flagIdx = argl.flagIndex(flagName);
+                if (flagIdx == MArgList.kInvalidArgIndex)
+                {
+                    // Create a workspace-control to wrap the native window wrapper, and use it as the parent of this WPF window
+                    CreateWorkspaceControl(wpfTitle, hostTitle, width, height, false);
+                }
+                
+                
+                
+                
             }
 
-           
+        }
 
-            MGlobal.displayInfo("DynaMaya: Dynamo for Maya |  Copyright© 2018 CERVER Design Studio & Robert Cervellione | http://www.cerver.io");
-            MGlobal.displayInfo("For more information on Dynamo please visit http://www.dynamobim.com");
-
+      
+        private DynamayaStartup newDmStartup()
+        {
+            dynStartUp = new DynamayaStartup();
+            dynStartUp.SetupDynamo();
+            dynStartUp.InitializeCoreView();
+            return dynStartUp;
         }
 
         private void View_Closed(object sender, EventArgs e)
         {
-            DynamoView dv = (DynamoView)sender;
-            if (!viewModel.PerformShutdownSequence(new DynamoViewModel.ShutdownParams(false, true, true)))
+            //DynamoView dv = (DynamoView)sender;
+            if (!dynStartUp.DynViewModel.PerformShutdownSequence(new DynamoViewModel.ShutdownParams(false, true, true)))
             {
                 MGlobal.displayWarning("Could not shut down");
             }
-            MGlobal.executeCommand($@"catch (`workspaceControl -cl ""{hostTitle}""`);");
-            view.Close();
-       
+          
+            dynStartUp.DynView.Close();
+            dynStartUp = null;
 
         }
 
-        private static void UpdateSystemPathForProcess()
+        private static void CreateWorkspaceControl(string content, string hostName, int width, int height, bool retain = true, bool floating = true)
         {
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
-            var parentDirectory = Directory.GetParent(assemblyDirectory);
-            var corePath = assemblyDirectory;
+            string closeCommand =  $"workspaceControl -cl {hostName};";
 
-
-            var path =
-                    Environment.GetEnvironmentVariable(
-                        "Path",
-                        EnvironmentVariableTarget.Process) + ";" + corePath;
-            Environment.SetEnvironmentVariable("Path", path, EnvironmentVariableTarget.Process);
+            string command = $@"
+                    workspaceControl 
+                        -requiredPlugin DynaMaya
+                        -cp true
+                        -retain {retain.ToString().ToLower()} 
+                        -floating {floating.ToString().ToLower()}
+                        -uiScript ""if (!`control -q -ex \""{content}\""`) {commandName} -{flagName}; control -e -parent \""{hostName}\"" \""{content}\"";""
+                        -requiredPlugin {pluginName}
+                        -initialWidth {width}
+                        -initialHeight {height} 
+                        ""{hostName}"";
+                ";
+            try
+            {
+                MGlobal.executeCommand(command);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error while creating workspace-control.");
+            }
         }
 
-        private void SubscribeAssemblyResolvingEvent()
+        public void SubscribeAssemblyResolvingEvent()
         {
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
         }
@@ -152,16 +163,15 @@ namespace DynamoMaya
 
             try
             {
-                var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-                var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+               // var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                var dynCorePath = @"C:\Program Files\Dynamo\Dynamo Core\2";
+                var dynNodePath = @"C:\Program Files\Dynamo\Dynamo Core\2\nodes";
 
-                // Try "Dynamo 0.x\Revit_20xx" folder first...
-                assemblyPath = Path.Combine(assemblyDirectory, assemblyName);
+                assemblyPath = Path.Combine(dynCorePath, assemblyName);
                 if (!File.Exists(assemblyPath))
                 {
-                    // If assembly cannot be found, try in "Dynamo 0.x" folder.
-                    var parentDirectory = Directory.GetParent(assemblyDirectory);
-                    assemblyPath = Path.Combine(parentDirectory.FullName, assemblyName);
+                    // If assembly cannot be found, try in nodes
+                    assemblyPath = Path.Combine(dynNodePath, assemblyName);
                 }
 
                 return (File.Exists(assemblyPath) ? Assembly.LoadFrom(assemblyPath) : null);
@@ -174,41 +184,7 @@ namespace DynamoMaya
             }
         }
 
-        private static DynamoView InitializeCoreView(DynamoViewModel dynamoViewModel)
-        {
-            var mwHandle = Process.GetCurrentProcess().MainWindowHandle;
-            var dynamoView = new DynamoView(dynamoViewModel);
-            new WindowInteropHelper(dynamoView).Owner = mwHandle;
-
-            return dynamoView;
-        }
-
-  
-
-        private static void CreateWorkspaceControl(string content, string hostName, int width, int height, bool retain = true, bool floating = true)
-        {
-            string closeCommand =  $"workspaceControl -cl {hostName};";
-
-            string command = $@"
-                    workspaceControl 
-                        -cp true
-                        -retain {retain.ToString().ToLower()} 
-                        -floating {floating.ToString().ToLower()}
-                        -uiScript ""if (!`control -q -ex \""{content}\""`) {commandName} -{flagName}; control -e -parent \""{hostName}\"" \""{content}\"";""
-                        -requiredPlugin {pluginName}
-                        -initialWidth {width}
-                        -initialHeight {height}
-                        ""{hostName}"";
-                ";
-            try
-            {
-                MGlobal.executeCommand(command);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error while creating workspace-control.");
-            }
-        }
+        
     }
 
     public class StartDynamayaPlugin : IExtensionPlugin
@@ -225,9 +201,11 @@ namespace DynamoMaya
 
         string IExtensionPlugin.GetMayaDotNetSdkBuildVersion()
         {
-            String version = "201353";
+            String version = "201853";
             return version;
         }
+
+     
     }
 
 }

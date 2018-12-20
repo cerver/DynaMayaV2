@@ -96,6 +96,7 @@ namespace DynaMaya.UINodes
                 RaisePropertyChanged("liveUpdate");
             }
         }
+
         [IsVisibleInDynamoLibrary(false)]
         [JsonProperty(PropertyName = "SelectedItemNamesString")]
         public string SelectedItemNamesString
@@ -274,7 +275,6 @@ namespace DynaMaya.UINodes
                         }
                     }
 
-
                     _meshLstNode = AstFactory.BuildExprList(dynamoMesh.Values.ToList());
                     _SelectedNameLstNode = AstFactory.BuildExprList(meshName.Values.ToList());
                     _mayaMesh = AstFactory.BuildExprList(mayaMesh.Values.ToList());
@@ -375,6 +375,7 @@ namespace DynaMaya.UINodes
             MSelectionList selectionList = new MSelectionList();
             MGlobal.getActiveSelectionList(selectionList,true);
 
+            if(selectionList.isEmpty)
             if(selectionList.isEmpty)
             {
                 SelectedItems = null;

@@ -513,7 +513,6 @@ C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Relea
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.Mvvm.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.PubSubEvents.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.SharedInterfaces.dll
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.ServiceLocation.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Newtonsoft.Json.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\nunit.framework.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\ProtoCore.dll
@@ -521,8 +520,6 @@ C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Relea
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\VMDataBridge.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\System.Collections.Immutable.dll
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Scripting.dll
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\IronPython.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\NDesk.Options.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Greg.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Analytics.NET.Core.dll
@@ -537,22 +534,18 @@ C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Relea
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\SharpDX.DXGI.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\SharpDX.D3DCompiler.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\LibG.Interface.dll
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Dynamic.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\RestSharp.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Ionic.Zip.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\CSharpAnalytics.Net45.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\HelixToolkit.Wpf.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\SharpDX.Direct3D9.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Cyotek.Drawing.BitmapFont.dll
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Scripting.Metadata.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\DynaMayaNodes.pdb
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\DynaMayaNodes.dll.config
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\dotMemory.Unit.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.Composition.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.Mvvm.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.Prism.SharedInterfaces.xml
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.ServiceLocation.pdb
-C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Microsoft.Practices.ServiceLocation.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Newtonsoft.Json.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\nunit.framework.xml
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\cs-CZ\ProtoGeometry.resources.dll
@@ -584,3 +577,6 @@ C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Relea
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Release\DynamoMayaUINodes.csproj.CopyComplete
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Release\DynaMayaUINodes.dll
 C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Release\DynaMayaUINodes.pdb
+C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\CommonServiceLocator.dll
+C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\Newtonsoft.Json.pdb
+C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\bin\Release\nunit.framework.pdb

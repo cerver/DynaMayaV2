@@ -26,7 +26,6 @@ namespace DynaMaya.UINodes
     [NodeName("Get Selected Locator")]
     [NodeCategory("DynaMaya.Interop.Select")]
     [NodeDescription("Select Maya Locator (as a point or CS)")]
-    [OutPortTypes("CoordinateSystem", "string", "MayaLocator")]
     [IsDesignScriptCompatible]
     public class SelectLocatorNode : NodeModel
     {

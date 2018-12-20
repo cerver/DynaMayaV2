@@ -95,24 +95,7 @@ namespace DynaMaya.Nodes.Interop
             }
         }
 
-        public static Point objectCenter(string ObjName)
-        {
-            MDoubleArray results = new MDoubleArray();
-
-            Task waitForCompletion = Task.Factory.StartNew(() => MGlobal.executeCommand("objectCenter -gl " + ObjName, results));
-            waitForCompletion.Wait(5000);
-            Point center;
-            if (MGlobal.isZAxisUp)
-            {
-                center = Point.ByCoordinates(results[0], results[1], results[2]);
-            }
-            else
-            {
-                center = Point.ByCoordinates(results[0], results[2], -results[1]);
-            }
-
-            return center;
-        }
+        
 
         [CanUpdatePeriodically(true), IsDesignScriptCompatible()]
         public static List<object> MelCommand(string MelCommand )
@@ -285,6 +268,8 @@ namespace DynaMaya.Nodes.Interop
     [IsDesignScriptCompatible]
     public class Receive
     {
+      
+
         [CanUpdatePeriodically(true)]
         public static double getTime()
         {
@@ -338,6 +323,25 @@ namespace DynaMaya.Nodes.Interop
                 {"Particles", particlePos},
                 {"Velocity", particleVec}
             };
+        }
+
+        public static Point getObjectCenter(string ObjName )
+        {
+            MDoubleArray results = new MDoubleArray();
+
+            Task waitForCompletion = Task.Factory.StartNew(() => MGlobal.executeCommand("objectCenter -gl " + ObjName, results));
+            waitForCompletion.Wait(5000);
+            Point center;
+            if (MGlobal.isZAxisUp)
+            {
+                center = Point.ByCoordinates(results[0], results[1], results[2]);
+            }
+            else
+            {
+                center = Point.ByCoordinates(results[0], results[2], -results[1]);
+            }
+
+            return center;
         }
     }
 }

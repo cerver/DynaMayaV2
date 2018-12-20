@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Debug\
+C:\Users\cerve\Dropbox\CDS_Code\DynaMaya_V2\DynaMaya\DynamoMayaUINodes\obj\Debug\
 DynaMaya.Nodes
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 31523286739
 
-13-514474455
-94-449711050
+141012325310
+148-164244262
 NodeUI\OptionPanel.xaml;NodeUI\CommandNodeUI.xaml;NodeUI\SelectNodeUI.xaml;
 
-False
+True
 

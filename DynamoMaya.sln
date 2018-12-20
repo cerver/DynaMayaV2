@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoMaya", "DynamoMayaNod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoMayaUINodes", "DynamoMayaUINodes\DynamoMayaUINodes.csproj", "{9B5E67AB-0E05-4522-B46B-E4FB181B2A0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynaMimic", "..\..\DynaMimic\DynaMimic\DynaMimic.csproj", "{14F585E3-52B8-4C6C-97CB-BDE22459CD58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,26 @@ Global
 		{9B5E67AB-0E05-4522-B46B-E4FB181B2A0F}.Release|x64.Build.0 = Release|Any CPU
 		{9B5E67AB-0E05-4522-B46B-E4FB181B2A0F}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B5E67AB-0E05-4522-B46B-E4FB181B2A0F}.Release|x86.Build.0 = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|ARM.Build.0 = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|x64.Build.0 = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Debug|x86.Build.0 = Debug|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|ARM.ActiveCfg = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|ARM.Build.0 = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|x64.ActiveCfg = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|x64.Build.0 = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|x86.ActiveCfg = Release|Any CPU
+		{14F585E3-52B8-4C6C-97CB-BDE22459CD58}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

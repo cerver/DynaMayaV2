@@ -26,7 +26,6 @@ namespace DynaMaya.UINodes
     [NodeName("Get Selected Curves")]
     [NodeCategory("DynaMaya.Interop.Select")]
     [NodeDescription("Select Maya Curve")]
-    [OutPortTypes("Curve","string","MayaCurve")]
     [IsDesignScriptCompatible]
     public class SelectCurveNode : NodeModel
     {

@@ -23,18 +23,17 @@ using System.Runtime.CompilerServices;
 namespace DynaMaya.UINodes
 {
 
-    [NodeName("Get Selected Mesh")]
+    [NodeName("Get Selected Surface")]
     [NodeCategory("DynaMaya.Interop.Select")]
-    [NodeDescription("Select Maya Mesh")]
-    [OutPortTypes("Mesh", "string", "MayaMesh")]
+    [NodeDescription("Select Maya Surface")]
     [IsDesignScriptCompatible]
     public class SelectSurfaceNode : NodeModel
     {
         #region private members
 
-        private AssociativeNode _meshLstNode = AstFactory.BuildNullNode();
+        private AssociativeNode _surfaceLstNode = AstFactory.BuildNullNode();
         private AssociativeNode _SelectedNameLstNode = AstFactory.BuildNullNode();
-        private AssociativeNode _mayaMesh = AstFactory.BuildNullNode();
+        private AssociativeNode _mayaSurface = AstFactory.BuildNullNode();
         private MSpace.Space space = MSpace.Space.kWorld;
         private bool firstRun = true;
         private bool hasBeenDeleted = false;
@@ -200,9 +199,9 @@ namespace DynaMaya.UINodes
         /// </summary>
         public SelectSurfaceNode()
         {
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh", "The Dynamo Mesh (Will only show if the mesh is quad or triangle)")));
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Mesh Name", "The name of the object in Maya")));
-            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Mesh", "This is the Maya Mesh typology which gives you access to all of the mesh including NGone mesh data")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Surface", "The Dynamo Surface")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Surface Name", "The name of the object in Maya")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Maya Surface", "This is the Maya Surface typology which gives you access to all of the Surface data")));
 
             RegisterAllPorts();
             ArgumentLacing = LacingStrategy.Shortest;
@@ -251,9 +250,9 @@ namespace DynaMaya.UINodes
             if (SelectedItems == null || hasBeenDeleted)
             {
                 //SelectedItems = new Dictionary<string, DMSurface>();
-                _meshLstNode = AstFactory.BuildNullNode();
+                _surfaceLstNode = AstFactory.BuildNullNode();
                 _SelectedNameLstNode = AstFactory.BuildNullNode();
-                _mayaMesh = AstFactory.BuildNullNode();
+                _mayaSurface = AstFactory.BuildNullNode();
                 hasBeenDeleted = false;
                 //return Enumerable.Empty<AssociativeNode>();
             }
@@ -276,15 +275,15 @@ namespace DynaMaya.UINodes
                     }
 
 
-                    _meshLstNode = AstFactory.BuildExprList(dynamoSurface.Values.ToList());
+                    _surfaceLstNode = AstFactory.BuildExprList(dynamoSurface.Values.ToList());
                     _SelectedNameLstNode = AstFactory.BuildExprList(surfaceName.Values.ToList());
-                    _mayaMesh = AstFactory.BuildExprList(mayaSurface.Values.ToList());
+                    _mayaSurface = AstFactory.BuildExprList(mayaSurface.Values.ToList());
 
 
                 }
                 else
                 {
-                    _meshLstNode = AstFactory.BuildNullNode();
+                    _surfaceLstNode = AstFactory.BuildNullNode();
                 }
 
             }
@@ -295,7 +294,7 @@ namespace DynaMaya.UINodes
             {
 
 
-                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _meshLstNode),
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), _surfaceLstNode),
                     AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
                         VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
 
@@ -303,7 +302,7 @@ namespace DynaMaya.UINodes
                     AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
                         VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes))),
 
-                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(2), _mayaMesh),
+                    AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(2), _mayaSurface),
                     AstFactory.BuildAssignment(AstFactory.BuildIdentifier(AstIdentifierBase + "_dummy"),
                         VMDataBridge.DataBridge.GenerateBridgeDataAst(GUID.ToString(), AstFactory.BuildExprList(inputAstNodes)))
 
@@ -385,13 +384,13 @@ namespace DynaMaya.UINodes
             }
 
             var TransObjectList = selectionList.DagPaths(MFn.Type.kTransform).ToList();
-            var DagObjectList = selectionList.DagPaths(MFn.Type.kMesh).ToList();
+            var DagObjectList = selectionList.DagPaths(MFn.Type.kNurbsSurface).ToList();
             SelectedItems = new Dictionary<string, DMSurface>(DagObjectList.Count);
             m_SelectedItemNames = new List<string>(DagObjectList.Count);
 
             foreach (var dag in TransObjectList)
             {
-                if (dag.hasFn(MFn.Type.kMesh))
+                if (dag.hasFn(MFn.Type.kNurbsSurface))
                 {
                     var itm = new DMSurface(dag, space);
                     itm.Renamed += Itm_Renamed;
@@ -579,7 +578,7 @@ namespace DynaMaya.UINodes
     ///     View customizer for CustomNodeModel Node Model.
     /// </summary>
     [IsVisibleInDynamoLibrary(false)]
-    public class MeshNodeViewCustomization : INodeViewCustomization<SelectSurfaceNode>
+    public class SurfaceNodeViewCustomization : INodeViewCustomization<SelectSurfaceNode>
     {
         /// <summary>
         /// At run-time, this method is called during the node 
